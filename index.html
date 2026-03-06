@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dans l'ombre — générique</title>
+  <!-- icônes -->
+  <link rel="icon" type="image/jpeg" href="icone.jpeg">
+  <link rel="apple-touch-icon" href="icone.jpeg">
+  <!-- polices cinéma -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+      color: #e8dcc8;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* arrière‑plan cinéma */
+    .background {
+      position: fixed;
+      inset: 0;
+      background-image: url("fondecran.jpg");
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      filter: grayscale(40%) contrast(1.1) brightness(0.9);
+    }
+
+    /* voile sombre progressif (plus présent sur les bords) */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%);
+      z-index: 1;
+    }
+
+    /* micro‑grain argentique (discret) */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* conteneur 3D pour l’effet crawl */
+    .scene {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      perspective: 350px;                /* accentue la profondeur */
+      perspective-origin: 50% 90%;       /* point de fuite vers le haut */
+      overflow: hidden;
+    }
+
+    /* le texte qui défile (inspiration Star Wars) */
+    .crawl-wrapper {
+      position: absolute;
+      bottom: -10%;                      /* démarre hors champ par le bas */
+      left: 50%;
+      width: 95%;                        /* presque toute la largeur */
+      max-width: 1300px;
+      transform: translateX(-50%) rotateX(21deg);
+      transform-origin: 50% 100%;
+      animation: crawl 44s linear forwards;  /* ~44s (rythme poétique) */
+      will-change: transform, opacity;
+      text-align: center;
+      line-height: 2.1;
+    }
+
+    /* animation de montée lente */
+    @keyframes crawl {
+      0% {
+        bottom: -10%;
+        opacity: 1;
+      }
+      15% {
+        opacity: 1;
+      }
+      95% {
+        opacity: 1;
+      }
+      100% {
+        bottom: 160%;                    /* sortie par le haut */
+        opacity: 0;
+      }
+    }
+
+    /* chaque bloc de texte (paragraphe) */
+    .crawl-wrapper p {
+      font-size: clamp(2.2rem, 7vw, 4.8rem);  /* très grand, adaptable */
+      font-weight: 300;
+      line-height: 1.7;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.2em;
+      color: #f0e6d2;
+      text-shadow:
+        0 0 30px rgba(230, 190, 140, 0.25),   /* halo chaud très léger */
+        0 0 60px rgba(0, 0, 0, 0.9),
+        0 4px 10px rgba(0, 0, 0, 1);           /* ombre portée solide */
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* italique pour certaines parties */
+    .crawl-wrapper p.italic {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* dernière phrase : plus solennelle, plus lumineuse */
+    .crawl-wrapper p.final {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 9vw, 6rem);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: #fff7e6;
+      text-shadow:
+        0 0 50px rgba(255, 200, 120, 0.5),
+        0 0 90px rgba(255, 160, 60, 0.3),
+        0 6px 15px #000;
+      margin-top: 1.8em;
+    }
+
+    /* bouton discret "go on?" */
+    .btn-continue {
+      position: fixed;
+      bottom: 32px;
+      right: 42px;
+      z-index: 20;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(210, 190, 160, 0.4);
+      color: rgba(220, 200, 170, 0.5);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 6px 4px 8px;
+      opacity: 0;
+      transition: opacity 1.8s ease, color 0.3s, border-color 0.3s;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
+    }
+
+    .btn-continue.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-continue:hover {
+      color: #f0e0c0;
+      border-bottom-color: rgba(240, 210, 160, 0.8);
+    }
+
+    /* fallback audio (invisible) */
+    audio {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- calques visuels -->
+  <div class="background"></div>
+  <div class="overlay"></div>
+  <div class="grain"></div>
+
+  <!-- musique automatique (autoplay + playsinline pour mobile) -->
+  <audio autoplay loop playsinline>
+    <source src="musique_intro.mp3" type="audio/mpeg">
+    <!-- message silencieux si le navigateur bloque l'autoplay -->
+    Votre navigateur ne supporte pas l'audio ou l'autoplay est bloqué.
+  </audio>
+
+  <!-- scène 3D avec le texte qui défile -->
+  <div class="scene">
+    <div class="crawl-wrapper">
+      <!-- première ligne : directement dans le défilement, pas de titre -->
+      <p class="italic">Longtemps avant que le monde ne s'allume…</p>
+      
+      <p>nous étions déjà là.</p>
+      
+      <p>
+        Les mains dans le froid,<br>
+        les genoux dans la poussière,<br>
+        portant un univers entier<br>
+        qui n'avait pas le droit de vaciller.
+      </p>
+      
+      <p>
+        Nous combattions sans relâche la chute.<br>
+        En silence.
+      </p>
+      
+      <p>
+        Laissant un peu de nous dans chaque recoin<br>
+        pour que le rêve tienne debout.
+      </p>
+      
+      <p>
+        Ceux qui tombent ensemble<br>
+        ne tombent jamais seuls.
+      </p>
+      
+      <p class="italic">
+        Fiers d'un orgueil<br>
+        que rien n'efface.
+      </p>
+      
+      <p>
+        Et puis la rumeur commença à gronder —<br>
+        jusqu'à ce que l'artiste franchisse<br>
+        le cercle incandescent.
+      </p>
+      
+      <p class="final">Et le monde s'embrase.</p>
+    </div>
+  </div>
+
+  <!-- bouton "go on?" apparaît après 14s -->
+  <button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">
+    go on?
+  </button>
+
+  <script>
+    (function() {
+      // Le crawl démarre immédiatement (l'animation est déjà dans la classe)
+      // On s'assure que l'animation est bien appliquée (pas de délai)
+      // (elle est définie dans la classe .crawl-wrapper)
+      
+      // Apparition du bouton après quelques secondes (14s → discret mais présent)
+      setTimeout(() => {
+        const btn = document.getElementById('btnContinue');
+        if (btn) btn.classList.add('visible');
+      }, 14000);  // 14 secondes, ajusté pour rester élégant
+
+      // Petit correctif : sur certains navigateurs, l'autoplay audio est bloqué.
+      // On tente de forcer une interaction silencieuse ? 
+      // Mais on reste fidèle à la demande : on ne rajoute pas de contrôle.
+      // Simple fallback : afficher un message dans la console (invisible pour l'utilisateur)
+      const audio = document.querySelector('audio');
+      if (audio) {
+        audio.volume = 0.6;  // volume modéré
+        // Tentative de lecture en réponse à un simple mouvement (pour débloquer certains navigateurs)
+        const playAudio = () => {
+          audio.play().catch(e => {/* silencieux */});
+          window.removeEventListener('touchstart', playAudio);
+          window.removeEventListener('mouseenter', playAudio);
+        };
+        window.addEventListener('touchstart', playAudio, { once: true });
+        window.addEventListener('mouseenter', playAudio, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>
