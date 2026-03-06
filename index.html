@@ -70,7 +70,7 @@
     /* le texte qui défile (inspiration Star Wars) */
     .crawl-wrapper {
       position: absolute;
-      bottom: -10%;                      /* démarre hors champ par le bas */
+      top: 100%;                         /* départ juste sous l'écran */
       left: 50%;
       width: 95%;                        /* presque toute la largeur */
       max-width: 1300px;
@@ -85,7 +85,7 @@
     /* animation de montée lente */
     @keyframes crawl {
       0% {
-        bottom: -10%;
+        top: 100%;                        /* hors champ par le bas */
         opacity: 1;
       }
       15% {
@@ -95,7 +95,7 @@
         opacity: 1;
       }
       100% {
-        bottom: 160%;                    /* sortie par le haut */
+        top: -280%;                       /* sortie par le haut (texte entièrement disparu) */
         opacity: 0;
       }
     }
@@ -245,25 +245,20 @@
   <script>
     (function() {
       // Le crawl démarre immédiatement (l'animation est déjà dans la classe)
-      // On s'assure que l'animation est bien appliquée (pas de délai)
-      // (elle est définie dans la classe .crawl-wrapper)
       
-      // Apparition du bouton après quelques secondes (14s → discret mais présent)
+      // Apparition du bouton après 14 secondes
       setTimeout(() => {
         const btn = document.getElementById('btnContinue');
         if (btn) btn.classList.add('visible');
-      }, 14000);  // 14 secondes, ajusté pour rester élégant
+      }, 14000);  // 14 secondes, discret mais présent
 
-      // Petit correctif : sur certains navigateurs, l'autoplay audio est bloqué.
-      // On tente de forcer une interaction silencieuse ? 
-      // Mais on reste fidèle à la demande : on ne rajoute pas de contrôle.
-      // Simple fallback : afficher un message dans la console (invisible pour l'utilisateur)
+      // Gestion de l'audio : tentative de déblocage pour les navigateurs restrictifs
       const audio = document.querySelector('audio');
       if (audio) {
-        audio.volume = 0.6;  // volume modéré
-        // Tentative de lecture en réponse à un simple mouvement (pour débloquer certains navigateurs)
+        audio.volume = 0.5;  // volume modéré
+        // Fonction pour tenter la lecture après une interaction légère
         const playAudio = () => {
-          audio.play().catch(e => {/* silencieux */});
+          audio.play().catch(e => {/* silence */});
           window.removeEventListener('touchstart', playAudio);
           window.removeEventListener('mouseenter', playAudio);
         };
