@@ -56,7 +56,7 @@
       position: fixed;
       inset: 0;
       z-index: 3;
-      perspective: 800px;
+      perspective: 600px;           /* perspective modérée */
       perspective-origin: 50% 80%;
       overflow: hidden;
     }
@@ -67,12 +67,12 @@
       left: 50%;
       width: 100%;
       max-width: none;
-      transform: translateX(-50%) rotateX(8deg);
+      transform: translateX(-50%) rotateX(6deg); /* angle légèrement réduit pour plus de largeur apparente */
       transform-origin: 50% 100%;
-      animation: crawl 40s linear forwards;
+      animation: crawl 45s linear forwards;  /* durée exacte de 45 secondes */
       will-change: transform, opacity;
       text-align: center;
-      line-height: 1.4;
+      line-height: 1.3;
     }
 
     @keyframes crawl {
@@ -87,41 +87,44 @@
         opacity: 1;
       }
       100% {
-        top: -800%;
+        top: -900%;                 /* sortie garantie (valeur ajustée pour la hauteur du texte) */
         opacity: 0;
       }
     }
 
+    /* Police encore plus grande, basée sur la largeur de l'écran */
     .crawl-wrapper p {
-      font-size: clamp(6rem, 14vw, 22rem);
+      font-size: clamp(8rem, 18vw, 28rem);   /* encore plus grand */
       font-weight: 300;
       line-height: 1.3;
       letter-spacing: 0.03em;
       margin-bottom: 0.8em;
       color: #f0e6d2;
       text-shadow:
-        0 0 50px rgba(230, 190, 140, 0.5),
-        0 0 100px rgba(0, 0, 0, 0.9),
-        0 8px 20px #000;
+        0 0 60px rgba(230, 190, 140, 0.6),
+        0 0 120px rgba(0, 0, 0, 0.9),
+        0 10px 25px #000;
       white-space: pre-wrap;
       word-break: break-word;
       width: 100%;
     }
 
+    /* Dernière phrase majestueuse */
     .crawl-wrapper p.final {
       font-family: 'Cinzel', serif;
-      font-size: clamp(10rem, 22vw, 36rem);
+      font-size: clamp(14rem, 28vw, 48rem);  /* encore plus grand */
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #fff7e6;
       text-shadow:
-        0 0 80px rgba(255, 200, 120, 0.7),
-        0 0 150px rgba(255, 160, 60, 0.5),
-        0 12px 30px #000;
-      margin-top: 0.6em;
+        0 0 100px rgba(255, 200, 120, 0.8),
+        0 0 200px rgba(255, 160, 60, 0.6),
+        0 15px 40px #000;
+      margin-top: 0.5em;
     }
 
+    /* Bouton discret */
     .btn-continue {
       position: fixed;
       bottom: 32px;
@@ -167,8 +170,8 @@
   <div class="overlay"></div>
   <div class="grain"></div>
 
-  <!-- balise audio sans autoplay pour tout gérer en JS -->
-  <audio loop playsinline id="introAudio">
+  <!-- balise audio avec lecture automatique et boucle -->
+  <audio autoplay loop playsinline id="introAudio">
     <source src="musique_intro.mp3" type="audio/mpeg">
   </audio>
 
@@ -213,14 +216,11 @@
       const audio = document.getElementById('introAudio');
       const btn = document.getElementById('btnContinue');
       
-      // Tentative de lecture automatique
+      // Gestion de l'autoplay avec fallback si le navigateur bloque
       let playPromise = audio.play();
-      
-      // Si le navigateur bloque la lecture automatique, on attend une interaction
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          console.log('Autoplay bloqué, attente interaction');
-          // On ajoute un écouteur unique sur tout le document
+          // Si autoplay bloqué, on attend une interaction pour lancer l'audio
           const startAudio = () => {
             audio.play().catch(e => console.log('Échec lecture audio'));
             document.removeEventListener('click', startAudio);
@@ -233,10 +233,10 @@
         });
       }
       
-      // Bouton apparaît après 14 secondes
+      // Bouton apparaît après 40 secondes (juste avant la fin du crawl)
       setTimeout(() => {
         btn.classList.add('visible');
-      }, 14000);
+      }, 40000); // 40 secondes
     })();
   </script>
 </body>
