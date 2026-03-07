@@ -66,7 +66,7 @@
       left: 50%;
       width: 120%;                  /* pleine largeur */
       max-width: none;              /* pas de limite */
-      transform: translateX(-50%) rotateX(8deg); /* angle Star Wars classique */
+      transform: translateX(-50%) rotateX(12deg); /* angle Star Wars classique */
       transform-origin: 50% 100%;
       animation: crawl 40s linear forwards;  /* défilement plus lent, ~40s */
       will-change: transform, opacity;
@@ -90,8 +90,6 @@
         opacity: 0;
       }
     }
-
-    /* Taille généreuse mais pas démesurée */
     .crawl-wrapper p {
       font-size: clamp(6rem, 14vw, 22rem);   /* entre 6rem et 22rem selon écran */
       font-weight: 300;
