@@ -6,11 +6,12 @@
   <title>Dans l'ombre — générique</title>
   <link rel="icon" type="image/jpeg" href="icone.jpeg">
   <link rel="apple-touch-icon" href="icone.jpeg">
-  <!-- Retour aux polices élégantes mais avec des variantes plus larges -->
+  <!-- polices élégantes et lisibles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -55,8 +56,8 @@
       position: fixed;
       inset: 0;
       z-index: 3;
-      perspective: 600px;           
-      perspective-origin: 40% 80%;
+      perspective: 800px;
+      perspective-origin: 50% 80%;
       overflow: hidden;
     }
 
@@ -64,11 +65,11 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      width: 140%;                 
-      max-width: none;             
-      transform: translateX(-50%) rotateX(12deg); /* angle Star Wars classique */
+      width: 100%;
+      max-width: none;
+      transform: translateX(-50%) rotateX(8deg);
       transform-origin: 50% 100%;
-      animation: crawl 40s linear forwards;  /* défilement plus lent, ~40s */
+      animation: crawl 40s linear forwards;
       will-change: transform, opacity;
       text-align: center;
       line-height: 1.4;
@@ -86,12 +87,13 @@
         opacity: 1;
       }
       100% {
-        top: -800%;                 /* sortie garantie */
+        top: -800%;
         opacity: 0;
       }
     }
+
     .crawl-wrapper p {
-      font-size: clamp(6rem, 14vw, 22rem);   /* entre 6rem et 22rem selon écran */
+      font-size: clamp(6rem, 14vw, 22rem);
       font-weight: 300;
       line-height: 1.3;
       letter-spacing: 0.03em;
@@ -106,10 +108,9 @@
       width: 100%;
     }
 
-    /* Dernière phrase majestueuse */
     .crawl-wrapper p.final {
       font-family: 'Cinzel', serif;
-      font-size: clamp(10rem, 22vw, 36rem);  /* encore plus grand */
+      font-size: clamp(10rem, 22vw, 36rem);
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -121,7 +122,6 @@
       margin-top: 0.6em;
     }
 
-    /* Bouton discret inchangé */
     .btn-continue {
       position: fixed;
       bottom: 32px;
@@ -167,13 +167,13 @@
   <div class="overlay"></div>
   <div class="grain"></div>
 
-  <audio autoplay loop playsinline>
+  <!-- balise audio sans autoplay pour tout gérer en JS -->
+  <audio loop playsinline id="introAudio">
     <source src="musique_intro.mp3" type="audio/mpeg">
   </audio>
 
   <div class="scene">
     <div class="crawl-wrapper">
-  
       <p>Longtemps avant que le monde<br>ne s'allume…</p>
       <p>nous étions déjà là.</p>
       <p>
@@ -210,22 +210,33 @@
 
   <script>
     (function() {
-      // Apparition du bouton après 14 secondes (défilement plus lent)
-      setTimeout(() => {
-        document.getElementById('btnContinue').classList.add('visible');
-      }, 30000);
-
-      const audio = document.querySelector('audio');
-      if (audio) {
-        audio.volume = 0.5;
-        const playAudio = () => {
-          audio.play().catch(() => {});
-          window.removeEventListener('touchstart', playAudio);
-          window.removeEventListener('mouseenter', playAudio);
-        };
-        window.addEventListener('touchstart', playAudio, { once: true });
-        window.addEventListener('mouseenter', playAudio, { once: true });
+      const audio = document.getElementById('introAudio');
+      const btn = document.getElementById('btnContinue');
+      
+      // Tentative de lecture automatique
+      let playPromise = audio.play();
+      
+      // Si le navigateur bloque la lecture automatique, on attend une interaction
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          console.log('Autoplay bloqué, attente interaction');
+          // On ajoute un écouteur unique sur tout le document
+          const startAudio = () => {
+            audio.play().catch(e => console.log('Échec lecture audio'));
+            document.removeEventListener('click', startAudio);
+            document.removeEventListener('touchstart', startAudio);
+            document.removeEventListener('keydown', startAudio);
+          };
+          document.addEventListener('click', startAudio, { once: true });
+          document.addEventListener('touchstart', startAudio, { once: true });
+          document.addEventListener('keydown', startAudio, { once: true });
+        });
       }
+      
+      // Bouton apparaît après 14 secondes
+      setTimeout(() => {
+        btn.classList.add('visible');
+      }, 14000);
     })();
   </script>
 </body>
