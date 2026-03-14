@@ -6,7 +6,7 @@
   <title>Dans l'ombre — my world</title>
   <link rel="icon" type="image/jpeg" href="icone.jpeg">
   <link rel="apple-touch-icon" href="icone.jpeg">
-  <!-- Police élégante (identique à celle du test, mais on peut garder la même) -->
+  <!-- Police élégante -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
@@ -91,7 +91,7 @@
       100% { opacity: 0.4; }
     }
 
-    /* Scène 3D - version test */
+    /* Scène 3D - version test (effet Star Wars) */
     .scene {
       position: fixed;
       inset: 0;
@@ -116,14 +116,14 @@
       width: 100%;
       text-align: center;
       font-size: 100px;            /* taille fixe énorme */
-      font-weight: bold;
+      font-weight: 300;
       line-height: 1.5;
-      color: #FFD700;               /* or, mais on peut ajuster */
+      color: rgba(255, 245, 230, 0.95); /* blanc doux */
       transform-origin: 50% 100%;
       transform: rotateX(30deg);    /* angle fort */
-      animation: crawl 45s linear forwards; /* durée 45s */
-      font-family: 'Cormorant Garamond', serif; /* pour rester élégant */
-      text-shadow: 0 0 20px #FFD700, 0 0 40px rgba(255,215,0,0.5);
+      animation: crawl 45s linear forwards;
+      font-family: 'Cormorant Garamond', serif;
+      text-shadow: 0 0 40px rgba(255, 230, 200, 0.5), 0 0 80px rgba(0,0,0,0.8), 0 8px 15px #000;
     }
 
     @keyframes crawl {
@@ -131,7 +131,7 @@
       100% { top: -300%; }          /* ajusté pour que tout le texte sorte */
     }
 
-    /* Ajustement pour les petits écrans : on réduit la taille proportionnellement */
+    /* Ajustement pour les petits écrans */
     @media (max-width: 800px) {
       .crawl {
         font-size: 12vw;
@@ -146,8 +146,8 @@
 
     /* Dernière phrase plus imposante */
     .crawl .final {
-      font-size: 150px;             /* encore plus grand */
-      font-weight: 700;
+      font-size: 150px;
+      font-weight: 600;
     }
     @media (max-width: 800px) {
       .crawl .final {
