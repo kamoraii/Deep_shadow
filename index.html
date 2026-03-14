@@ -6,7 +6,6 @@
   <title>Dans l'ombre — my world</title>
   <link rel="icon" type="image/jpeg" href="icone.jpeg">
   <link rel="apple-touch-icon" href="icone.jpeg">
-  <!-- Police élégante -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,7 +22,6 @@
       background: #000;
     }
 
-    /* Fond d'écran */
     .background {
       position: fixed;
       inset: 0;
@@ -34,7 +32,6 @@
       filter: grayscale(30%) contrast(1.1) brightness(0.9);
     }
 
-    /* Voile sombre */
     .overlay {
       position: fixed;
       inset: 0;
@@ -42,7 +39,6 @@
       z-index: 1;
     }
 
-    /* Grain subtil */
     .grain {
       position: fixed;
       inset: 0;
@@ -53,7 +49,6 @@
       background-size: 150px;
     }
 
-    /* Invitation "my world" */
     .invitation {
       position: fixed;
       bottom: 40px;
@@ -91,7 +86,6 @@
       100% { opacity: 0.4; }
     }
 
-    /* Scène 3D - version test (effet Star Wars) */
     .scene {
       position: fixed;
       inset: 0;
@@ -108,10 +102,9 @@
       opacity: 1;
     }
 
-    /* Le texte qui défile */
     .crawl {
       position: absolute;
-      top: 100%;                    /* commence hors champ en bas */
+      top: 100%;
       left: 0;
       width: 100%;
       text-align: center;
@@ -127,11 +120,10 @@
     }
 
     @keyframes crawl {
-      0% { top: 100%; }              /* départ en bas */
-      100% { top: -350%; }            /* sortie complète (ajusté) */
+      0% { top: 100%; }
+      100% { top: -350%; }
     }
 
-    /* Ajustement pour petits écrans */
     @media (max-width: 800px) {
       .crawl {
         font-size: 12vw;
@@ -153,7 +145,6 @@
       }
     }
 
-    /* Bouton go on */
     .btn-continue {
       position: fixed;
       bottom: 32px;
@@ -195,15 +186,12 @@
   <div class="overlay"></div>
   <div class="grain"></div>
 
-  <!-- Invitation "my world" -->
   <button class="invitation" id="invitation">my world</button>
 
-  <!-- Audio -->
   <audio id="introAudio" loop preload="auto">
     <source src="musique_intro.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Scène du crawl -->
   <div class="scene" id="scene">
     <div class="crawl">
       <p>Longtemps avant que le monde ne s'allume…</p>
@@ -240,17 +228,19 @@
         if (experienceStarted) return;
         experienceStarted = true;
 
-        // Faire disparaître l'invitation
         invitation.classList.add('hidden');
-
-        // Activer le crawl (le texte commence à top:100% donc en bas)
         scene.classList.add('active');
 
-        // Lancer l'audio
-        audio.play().catch(e => console.log('Audio error:', e));
+        // Important : on s'assure que l'audio est bien joué
+        audio.load(); // recharge au cas où
+        audio.play().then(() => {
+          console.log('Audio joué');
+        }).catch(e => {
+          console.log('Erreur audio :', e);
+          // Si erreur, on peut essayer de le jouer après une nouvelle interaction
+        });
         audio.volume = 1;
 
-        // Fade out sur 8 secondes (de 37s à 45s)
         setTimeout(() => {
           const fadeStartTime = Date.now();
           const fadeDuration = 8000;
@@ -266,9 +256,8 @@
           }
           
           requestAnimationFrame(fadeOut);
-        }, 37000); // 37 secondes
+        }, 37000);
 
-        // Bouton apparaît à 43 secondes
         setTimeout(() => {
           btn.classList.add('visible');
         }, 43000);
@@ -276,6 +265,9 @@
 
       invitation.addEventListener('click', startExperience);
       invitation.addEventListener('touchstart', startExperience);
+
+      // Au cas où l'audio ne se lance pas, on essaie de le forcer au toucher
+      // mais c'est déjà fait
     })();
   </script>
 </body>
