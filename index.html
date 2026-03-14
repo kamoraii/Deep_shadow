@@ -1,284 +1,311 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dans l'ombre — my world</title>
-  <link rel="icon" type="image/jpeg" href="icone.jpeg">
-  <link rel="apple-touch-icon" href="icone.jpeg">
-  <!-- Police élégante -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dans l'ombre — my world</title>
 
-    body {
-      height: 100vh;
-      overflow: hidden;
-      background: #000;
-    }
+<link rel="icon" type="image/jpeg" href="icone.jpeg">
+<link rel="apple-touch-icon" href="icone.jpeg">
 
-    /* Fond d'écran */
-    .background {
-      position: fixed;
-      inset: 0;
-      background-image: url("fondecran.jpg");
-      background-size: cover;
-      background-position: center;
-      z-index: 0;
-      filter: grayscale(30%) contrast(1.1) brightness(0.9);
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    /* Voile sombre */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
-      z-index: 1;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
 
-    /* Grain subtil */
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0.05;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 150px;
-    }
+<style>
 
-    /* Invitation "my world" */
-    .invitation {
-      position: fixed;
-      bottom: 40px;
-      left: 40px;
-      color: rgba(255, 245, 230, 0.6);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      letter-spacing: 0.3em;
-      text-transform: lowercase;
-      cursor: pointer;
-      z-index: 10;
-      padding: 8px 16px;
-      border: none;
-      background: transparent;
-      transition: opacity 0.5s ease;
-      text-shadow: 0 0 15px rgba(255, 245, 230, 0.4);
-      animation: pulse 3s infinite;
-      pointer-events: auto;
-    }
+{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    .invitation:hover {
-      color: rgba(255, 245, 230, 0.9);
-      text-shadow: 0 0 25px rgba(255, 245, 230, 0.7);
-    }
+body{
+height:100vh;
+overflow:hidden;
+background:#000;
+}
 
-    .invitation.hidden {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
+/ FOND /
 
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
-    }
+.background{
+position:fixed;
+inset:0;
+background-image:url("fondecran.jpg");
+background-size:cover;
+background-position:center;
+z-index:0;
+filter:grayscale(30%) contrast(1.1) brightness(0.9);
+}
 
-    /* Scène 3D - avec les paramètres qui donnent l'effet Star Wars marqué */
-    .scene {
-      position: fixed;
-      inset: 0;
-      z-index: 5;
-      perspective: 200px;
-      perspective-origin: 50% 0%;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
+.overlay{
+position:fixed;
+inset:0;
+background:radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+z-index:1;
+}
 
-    .scene.active {
-      opacity: 1;
-    }
+.grain{
+position:fixed;
+inset:0;
+z-index:2;
+pointer-events:none;
+opacity:0.05;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+background-size:150px;
+}
 
-    /* Le texte qui défile */
-    .crawl {
-      position: absolute;
-      top: 100%;                    /* commence en bas */
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 100px;             /* taille fixe énorme */
-      font-weight: 300;
-      line-height: 1.5;
-      color: rgba(255, 245, 230, 0.95); /* blanc doux */
-      transform-origin: 50% 100%;
-      transform: rotateX(30deg);     /* angle fort */
-      animation: crawl 45s linear forwards;
-      font-family: 'Cormorant Garamond', serif;
-      text-shadow: 0 0 40px rgba(255, 230, 200, 0.5), 0 0 80px rgba(0,0,0,0.8), 0 8px 15px #000;
-    }
+/ BOUTON MY WORLD /
 
-    @keyframes crawl {
-      0% { top: 100%; }
-      100% { top: -350%; }           /* sortie complète */
-    }
+.invitation{
+position:fixed;
+bottom:40px;
+left:40px;
+color:rgba(255,245,230,0.6);
+font-family:'Cormorant Garamond',serif;
+font-size:1.3rem;
+letter-spacing:0.3em;
+cursor:pointer;
+z-index:10;
+padding:8px 16px;
+border:none;
+background:transparent;
+text-shadow:0 0 15px rgba(255,245,230,0.4);
+animation:pulse 3s infinite;
+}
 
-    /* Ajustement pour les petits écrans */
-    @media (max-width: 800px) {
-      .crawl {
-        font-size: 12vw;
-      }
-    }
+@keyframes pulse{
+0%{opacity:0.4;}
+50%{opacity:1;}
+100%{opacity:0.4;}
+}
 
-    .crawl p {
-      margin: 0;
-      padding: 20px 0;
-    }
+.invitation.hidden{
+opacity:0;
+pointer-events:none;
+}
 
-    .crawl .final {
-      font-size: 150px;
-      font-weight: 600;
-    }
-    @media (max-width: 800px) {
-      .crawl .final {
-        font-size: 18vw;
-      }
-    }
+/ SCENE /
 
-    /* Bouton go on */
-    .btn-continue {
-      position: fixed;
-      bottom: 32px;
-      right: 42px;
-      z-index: 20;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(230, 220, 200, 0.35);
-      color: rgba(230, 220, 200, 0.5);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      text-transform: lowercase;
-      cursor: pointer;
-      padding: 6px 4px 8px;
-      opacity: 0;
-      transition: opacity 1.8s ease, color 0.3s, border-color 0.3s;
-      pointer-events: none;
-      backdrop-filter: blur(2px);
-    }
+.scene{
+position:fixed;
+inset:0;
+z-index:5;
+perspective:260px; / perspective plus forte /
+perspective-origin:50% 90%;
+overflow:hidden;
+opacity:0;
+transition:opacity .3s ease;
+}
 
-    .btn-continue.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+.scene.active{
+opacity:1;
+}
 
-    .btn-continue:hover {
-      color: #fff0e0;
-      border-bottom-color: rgba(255, 240, 220, 0.8);
-    }
+/ CRAWL /
 
-    audio {
-      display: none;
-    }
-  </style>
+.crawl-wrapper{
+
+position:absolute;
+
+/ TEXTE COMMENCE HORS ÉCRAN /
+top:120%;
+
+left:50%;
+
+/ TEXTE BEAUCOUP PLUS LARGE /
+width:120%;
+max-width:none;
+
+transform:translateX(-50%) rotateX(26deg); / angle Star Wars /
+
+transform-origin:50% 100%;
+
+animation:crawl 50s linear forwards;
+
+text-align:center;
+}
+
+/ ANIMATION /
+
+@keyframes crawl{
+
+0%{
+top:120%;
+opacity:1;
+}
+
+90%{
+opacity:1;
+}
+
+100%{
+top:-900%;
+opacity:0;
+}
+
+}
+
+/ TEXTE /
+
+.crawl-wrapper p{
+
+font-family:'Cormorant Garamond',serif;
+
+font-size:clamp(4rem,9vw,10rem); / texte plus lisible /
+
+font-weight:300;
+
+line-height:1.4;
+
+letter-spacing:.03em;
+
+margin-bottom:.8em;
+
+color:rgba(255,245,230,.95);
+
+text-shadow:
+0 0 40px rgba(255,230,200,.5),
+0 0 80px rgba(0,0,0,.8),
+0 8px 15px #000;
+}
+
+.crawl-wrapper p.final{
+
+font-weight:600;
+
+font-size:clamp(6rem,12vw,16rem);
+
+letter-spacing:.08em;
+
+color:white;
+
+text-shadow:
+0 0 70px rgba(255,240,210,.7),
+0 0 140px rgba(0,0,0,.9),
+0 15px 30px #000;
+}
+
+/ BOUTON GO ON */
+
+.btn-continue{
+
+position:fixed;
+bottom:32px;
+right:42px;
+z-index:20;
+
+background:transparent;
+
+border:none;
+
+border-bottom:1px solid rgba(230,220,200,.35);
+
+color:rgba(230,220,200,.5);
+
+font-family:'Cormorant Garamond',serif;
+
+font-size:1rem;
+
+letter-spacing:.3em;
+
+cursor:pointer;
+
+padding:6px 4px 8px;
+
+opacity:0;
+
+transition:opacity 1.8s ease;
+
+pointer-events:none;
+}
+
+.btn-continue.visible{
+opacity:1;
+pointer-events:auto;
+}
+
+audio{
+display:none;
+}
+
+</style>
 </head>
+
 <body>
-  <div class="background"></div>
-  <div class="overlay"></div>
-  <div class="grain"></div>
 
-  <!-- Invitation "my world" -->
-  <button class="invitation" id="invitation">my world</button>
+<div class="background"></div>
+<div class="overlay"></div>
+<div class="grain"></div>
 
-  <!-- Audio -->
-  <audio id="introAudio" loop preload="auto">
-    <source src="musique_intro.mp3" type="audio/mpeg">
-  </audio>
+<button class="invitation" id="invitation">my world</button>
 
-  <!-- Scène du crawl -->
-  <div class="scene" id="scene">
-    <div class="crawl">
-      <p>Longtemps avant que le monde ne s'allume…</p>
-      <p>nous étions déjà là.</p>
-      <p>Les mains dans le froid,</p>
-      <p>les genoux dans la poussière,</p>
-      <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
-      <p>Nous combattions sans relâche la chute.</p>
-      <p>En silence.</p>
-      <p>Laissant un peu de nous dans chaque recoin,</p>
-      <p>pour que le rêve tienne debout.</p>
-      <p>Ceux qui tombent ensemble</p>
-      <p>ne tombent jamais seuls.</p>
-      <p>Fiers d'un orgueil que rien n'efface.</p>
-      <p>Et puis la rumeur commença à gronder —</p>
-      <p>jusqu'à ce que l'artiste franchisse</p>
-      <p>le cercle incandescent.</p>
-      <p class="final">Et le monde s'embrase.</p>
-    </div>
-  </div>
+<audio id="introAudio" loop preload="auto">
+<source src="musique_intro.mp3" type="audio/mpeg">
+</audio>
 
-  <button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">go on?</button>
+<div class="scene" id="scene">
+<div class="crawl-wrapper">
 
-  <script>
-    (function() {
-      const invitation = document.getElementById('invitation');
-      const scene = document.getElementById('scene');
-      const audio = document.getElementById('introAudio');
-      const btn = document.getElementById('btnContinue');
-      
-      let experienceStarted = false;
+<p>Longtemps avant que le monde ne s'allume…</p>
+<p>nous étions déjà là.</p>
+<p>Les mains dans le froid,</p>
+<p>les genoux dans la poussière,</p>
+<p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
+<p>Nous combattions sans relâche la chute.</p>
+<p>En silence.</p>
+<p>Laissant un peu de nous dans chaque recoin,</p>
+<p>pour que le rêve tienne debout.</p>
+<p>Ceux qui tombent ensemble</p>
+<p>ne tombent jamais seuls.</p>
+<p>Fiers d'un orgueil que rien n'efface.</p>
+<p>Et puis la rumeur commença à gronder —</p>
+<p>jusqu'à ce que l'artiste franchisse</p>
+<p>le cercle incandescent.</p>
 
-      function startExperience() {
-        if (experienceStarted) return;
-        experienceStarted = true;
+<p class="final">Et le monde s'embrase.</p>
 
-        // Faire disparaître l'invitation
-        invitation.classList.add('hidden');
+</div>
+</div>
 
-        // Activer le crawl
-        scene.classList.add('active');
+<button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">go on?</button>
 
-        // Lancer l'audio (simple, comme dans la première version)
-        audio.play().catch(e => console.log('Audio error:', e));
-        audio.volume = 1;
+<script>
 
-        // Fade out sur 8 secondes (de 37s à 45s)
-        setTimeout(() => {
-          const fadeStartTime = Date.now();
-          const fadeDuration = 8000;
-          
-          function fadeOut() {
-            const elapsed = Date.now() - fadeStartTime;
-            const progress = Math.min(elapsed / fadeDuration, 1);
-            audio.volume = Math.max(0, 1 - progress);
-            
-            if (progress < 1) {
-              requestAnimationFrame(fadeOut);
-            } else {
-              audio.pause();
-            }
-          }
-          
-          requestAnimationFrame(fadeOut);
-        }, 37000);
+(function(){
 
-        // Bouton apparaît à 43 secondes
-        setTimeout(() => {
-          btn.classList.add('visible');
-        }, 43000);
-      }
+const invitation=document.getElementById('invitation');
+const scene=document.getElementById('scene');
+const audio=document.getElementById('introAudio');
+const btn=document.getElementById('btnContinue');
 
-      invitation.addEventListener('click', startExperience);
-      invitation.addEventListener('touchstart', startExperience);
-    })();
-  </script>
+let started=false;
+
+function startExperience(){
+
+if(started)return;
+
+started=true;
+
+invitation.classList.add('hidden');
+scene.classList.add('active');
+
+audio.play().catch(()=>{});
+audio.volume=1;
+
+setTimeout(()=>{
+btn.classList.add('visible');
+},46000);
+
+}
+
+invitation.addEventListener('click',startExperience);
+invitation.addEventListener('touchstart',startExperience);
+
+})();
+
+</script>
+
 </body>
 </html>
