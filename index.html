@@ -1,63 +1,284 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Test Star Wars</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: black;
-            color: white;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dans l'ombre — my world</title>
+  <link rel="icon" type="image/jpeg" href="icone.jpeg">
+  <link rel="apple-touch-icon" href="icone.jpeg">
+  <!-- Police élégante (identique à celle du test, mais on peut garder la même) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Conteneur 3D */
-        .scene {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 200px;
-            perspective-origin: 50% 0%;
-            overflow: hidden;
-        }
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
 
-        /* Texte en perspective */
-        .crawl {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 100px;  /* Taille énorme fixe */
-            font-weight: bold;
-            line-height: 1.5;
-            color: #FFD700;
-            transform-origin: 50% 100%;
-            transform: rotateX(30deg); /* Angle fort */
-            animation: crawl 20s linear forwards;
-        }
+    /* Fond d'écran */
+    .background {
+      position: fixed;
+      inset: 0;
+      background-image: url("fondecran.jpg");
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      filter: grayscale(30%) contrast(1.1) brightness(0.9);
+    }
 
-        @keyframes crawl {
-            0% { top: 100%; }
-            100% { top: -200%; }
-        }
+    /* Voile sombre */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+      z-index: 1;
+    }
 
-        p {
-            margin: 0;
-            padding: 20px 0;
-        }
-    </style>
+    /* Grain subtil */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 150px;
+    }
+
+    /* Invitation "my world" */
+    .invitation {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      color: rgba(255, 245, 230, 0.6);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.3em;
+      text-transform: lowercase;
+      cursor: pointer;
+      z-index: 10;
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      transition: opacity 0.5s ease;
+      text-shadow: 0 0 15px rgba(255, 245, 230, 0.4);
+      animation: pulse 3s infinite;
+      pointer-events: auto;
+    }
+
+    .invitation:hover {
+      color: rgba(255, 245, 230, 0.9);
+      text-shadow: 0 0 25px rgba(255, 245, 230, 0.7);
+    }
+
+    .invitation.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    /* Scène 3D - version test */
+    .scene {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      perspective: 200px;           /* identique au test */
+      perspective-origin: 50% 0%;   /* point de fuite en haut */
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .scene.active {
+      opacity: 1;
+    }
+
+    /* Le texte qui défile - paramètres du test */
+    .crawl {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 100px;            /* taille fixe énorme */
+      font-weight: bold;
+      line-height: 1.5;
+      color: #FFD700;               /* or, mais on peut ajuster */
+      transform-origin: 50% 100%;
+      transform: rotateX(30deg);    /* angle fort */
+      animation: crawl 45s linear forwards; /* durée 45s */
+      font-family: 'Cormorant Garamond', serif; /* pour rester élégant */
+      text-shadow: 0 0 20px #FFD700, 0 0 40px rgba(255,215,0,0.5);
+    }
+
+    @keyframes crawl {
+      0% { top: 100%; }
+      100% { top: -300%; }          /* ajusté pour que tout le texte sorte */
+    }
+
+    /* Ajustement pour les petits écrans : on réduit la taille proportionnellement */
+    @media (max-width: 800px) {
+      .crawl {
+        font-size: 12vw;
+      }
+    }
+
+    /* Paragraphes */
+    .crawl p {
+      margin: 0;
+      padding: 20px 0;
+    }
+
+    /* Dernière phrase plus imposante */
+    .crawl .final {
+      font-size: 150px;             /* encore plus grand */
+      font-weight: 700;
+    }
+    @media (max-width: 800px) {
+      .crawl .final {
+        font-size: 18vw;
+      }
+    }
+
+    /* Bouton go on */
+    .btn-continue {
+      position: fixed;
+      bottom: 32px;
+      right: 42px;
+      z-index: 20;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(230, 220, 200, 0.35);
+      color: rgba(230, 220, 200, 0.5);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 6px 4px 8px;
+      opacity: 0;
+      transition: opacity 1.8s ease, color 0.3s, border-color 0.3s;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
+    }
+
+    .btn-continue.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-continue:hover {
+      color: #fff0e0;
+      border-bottom-color: rgba(255, 240, 220, 0.8);
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="scene">
-        <div class="crawl">
-            <p>Longtemps avant que le monde ne s'allume…</p>
-            <p>nous étions déjà là.</p>
-            <p>Les mains dans le froid,</p>
-            <p>les genoux dans la poussière,</p>
-            <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
-        </div>
+  <div class="background"></div>
+  <div class="overlay"></div>
+  <div class="grain"></div>
+
+  <!-- Invitation "my world" -->
+  <button class="invitation" id="invitation">my world</button>
+
+  <!-- Audio -->
+  <audio id="introAudio" loop preload="auto">
+    <source src="musique_intro.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Scène du crawl -->
+  <div class="scene" id="scene">
+    <div class="crawl">
+      <p>Longtemps avant que le monde ne s'allume…</p>
+      <p>nous étions déjà là.</p>
+      <p>Les mains dans le froid,</p>
+      <p>les genoux dans la poussière,</p>
+      <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
+      <p>Nous combattions sans relâche la chute.</p>
+      <p>En silence.</p>
+      <p>Laissant un peu de nous dans chaque recoin,</p>
+      <p>pour que le rêve tienne debout.</p>
+      <p>Ceux qui tombent ensemble</p>
+      <p>ne tombent jamais seuls.</p>
+      <p>Fiers d'un orgueil que rien n'efface.</p>
+      <p>Et puis la rumeur commença à gronder —</p>
+      <p>jusqu'à ce que l'artiste franchisse</p>
+      <p>le cercle incandescent.</p>
+      <p class="final">Et le monde s'embrase.</p>
     </div>
+  </div>
+
+  <button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">go on?</button>
+
+  <script>
+    (function() {
+      const invitation = document.getElementById('invitation');
+      const scene = document.getElementById('scene');
+      const audio = document.getElementById('introAudio');
+      const btn = document.getElementById('btnContinue');
+      
+      let experienceStarted = false;
+
+      function startExperience() {
+        if (experienceStarted) return;
+        experienceStarted = true;
+
+        // Faire disparaître l'invitation
+        invitation.classList.add('hidden');
+
+        // Activer le crawl
+        scene.classList.add('active');
+
+        // Lancer l'audio
+        audio.play().catch(e => console.log('Audio error:', e));
+        audio.volume = 1;
+
+        // Fade out sur 8 secondes (de 37s à 45s)
+        setTimeout(() => {
+          const fadeStartTime = Date.now();
+          const fadeDuration = 8000;
+          
+          function fadeOut() {
+            const elapsed = Date.now() - fadeStartTime;
+            const progress = Math.min(elapsed / fadeDuration, 1);
+            audio.volume = Math.max(0, 1 - progress);
+            
+            if (progress < 1) {
+              requestAnimationFrame(fadeOut);
+            }
+          }
+          
+          requestAnimationFrame(fadeOut);
+        }, 37000); // 37 secondes
+
+        // Bouton apparaît à 43 secondes
+        setTimeout(() => {
+          btn.classList.add('visible');
+        }, 43000);
+      }
+
+      invitation.addEventListener('click', startExperience);
+      invitation.addEventListener('touchstart', startExperience);
+    })();
+  </script>
 </body>
 </html>
