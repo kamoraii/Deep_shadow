@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dans l'ombre — my world</title>
 
 <link rel="icon" type="image/jpeg" href="icone.jpeg">
@@ -25,9 +26,10 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
+font-family:'Cormorant Garamond',serif;
 }
 
-/ FOND /
+/ fond /
 
 .background{
 position:fixed;
@@ -52,33 +54,30 @@ inset:0;
 z-index:2;
 pointer-events:none;
 opacity:0.05;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 background-size:150px;
 }
 
-/ BOUTON MY WORLD /
+/ bouton my world /
 
 .invitation{
 position:fixed;
 bottom:40px;
 left:40px;
-color:rgba(255,245,230,0.6);
-font-family:'Cormorant Garamond',serif;
+color:rgba(255,245,230,0.7);
 font-size:1.3rem;
 letter-spacing:0.3em;
 cursor:pointer;
 z-index:10;
-padding:8px 16px;
 border:none;
 background:transparent;
-text-shadow:0 0 15px rgba(255,245,230,0.4);
 animation:pulse 3s infinite;
 }
 
 @keyframes pulse{
-0%{opacity:0.4;}
-50%{opacity:1;}
-100%{opacity:0.4;}
+0%{opacity:.4}
+50%{opacity:1}
+100%{opacity:.4}
 }
 
 .invitation.hidden{
@@ -86,144 +85,119 @@ opacity:0;
 pointer-events:none;
 }
 
-/ SCENE /
+/ scene /
 
 .scene{
 position:fixed;
 inset:0;
 z-index:5;
-perspective:260px; / perspective plus forte /
-perspective-origin:50% 90%;
+perspective:400px;
+perspective-origin:50% 80%;
 overflow:hidden;
 opacity:0;
-transition:opacity .3s ease;
+transition:opacity .4s;
 }
 
 .scene.active{
 opacity:1;
 }
 
-/ CRAWL /
+/ crawl /
 
 .crawl-wrapper{
 
 position:absolute;
 
-/ TEXTE COMMENCE HORS ÉCRAN /
-top:120%;
+/ démarre sous l'écran /
+
+top:110%;
 
 left:50%;
 
-/ TEXTE BEAUCOUP PLUS LARGE /
-width:120%;
-max-width:none;
+width:90%;
+max-width:1200px;
 
-transform:translateX(-50%) rotateX(26deg); / angle Star Wars /
+transform:translateX(-50%) rotateX(18deg);
 
 transform-origin:50% 100%;
 
-animation:crawl 50s linear forwards;
+animation:crawl 48s linear forwards;
 
 text-align:center;
+
 }
 
-/ ANIMATION /
+/ animation /
 
 @keyframes crawl{
 
 0%{
-top:120%;
-opacity:1;
-}
-
-90%{
-opacity:1;
+top:110%;
 }
 
 100%{
-top:-900%;
-opacity:0;
+top:-600%;
 }
 
 }
 
-/ TEXTE /
+/ texte /
 
 .crawl-wrapper p{
 
-font-family:'Cormorant Garamond',serif;
+font-size:clamp(2rem,4vw,3.2rem);
 
-font-size:clamp(4rem,9vw,10rem); / texte plus lisible /
+line-height:1.7;
 
-font-weight:300;
+margin-bottom:2rem;
 
-line-height:1.4;
-
-letter-spacing:.03em;
-
-margin-bottom:.8em;
-
-color:rgba(255,245,230,.95);
+color:rgba(255,245,230,0.95);
 
 text-shadow:
-0 0 40px rgba(255,230,200,.5),
-0 0 80px rgba(0,0,0,.8),
-0 8px 15px #000;
+0 0 30px rgba(255,230,200,.4),
+0 0 60px rgba(0,0,0,.9),
+0 6px 12px #000;
+
 }
+
+/ phrase finale /
 
 .crawl-wrapper p.final{
 
+font-size:clamp(3rem,5vw,4rem);
+
 font-weight:600;
 
-font-size:clamp(6rem,12vw,16rem);
-
-letter-spacing:.08em;
-
-color:white;
-
-text-shadow:
-0 0 70px rgba(255,240,210,.7),
-0 0 140px rgba(0,0,0,.9),
-0 15px 30px #000;
 }
 
-/ BOUTON GO ON */
+/ bouton final */
 
 .btn-continue{
 
 position:fixed;
 bottom:32px;
 right:42px;
-z-index:20;
 
 background:transparent;
-
 border:none;
 
 border-bottom:1px solid rgba(230,220,200,.35);
 
-color:rgba(230,220,200,.5);
-
-font-family:'Cormorant Garamond',serif;
+color:rgba(230,220,200,.6);
 
 font-size:1rem;
-
 letter-spacing:.3em;
 
 cursor:pointer;
 
-padding:6px 4px 8px;
-
 opacity:0;
 
-transition:opacity 1.8s ease;
+transition:opacity 1.5s;
 
-pointer-events:none;
 }
 
 .btn-continue.visible{
 opacity:1;
-pointer-events:auto;
 }
 
 audio{
@@ -246,22 +220,37 @@ display:none;
 </audio>
 
 <div class="scene" id="scene">
+
 <div class="crawl-wrapper">
 
 <p>Longtemps avant que le monde ne s'allume…</p>
+
 <p>nous étions déjà là.</p>
+
 <p>Les mains dans le froid,</p>
+
 <p>les genoux dans la poussière,</p>
+
 <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
+
 <p>Nous combattions sans relâche la chute.</p>
+
 <p>En silence.</p>
+
 <p>Laissant un peu de nous dans chaque recoin,</p>
+
 <p>pour que le rêve tienne debout.</p>
+
 <p>Ceux qui tombent ensemble</p>
+
 <p>ne tombent jamais seuls.</p>
+
 <p>Fiers d'un orgueil que rien n'efface.</p>
+
 <p>Et puis la rumeur commença à gronder —</p>
+
 <p>jusqu'à ce que l'artiste franchisse</p>
+
 <p>le cercle incandescent.</p>
 
 <p class="final">Et le monde s'embrase.</p>
@@ -275,10 +264,10 @@ display:none;
 
 (function(){
 
-const invitation=document.getElementById('invitation');
-const scene=document.getElementById('scene');
-const audio=document.getElementById('introAudio');
-const btn=document.getElementById('btnContinue');
+const invitation=document.getElementById("invitation");
+const scene=document.getElementById("scene");
+const audio=document.getElementById("introAudio");
+const btn=document.getElementById("btnContinue");
 
 let started=false;
 
@@ -288,20 +277,21 @@ if(started)return;
 
 started=true;
 
-invitation.classList.add('hidden');
-scene.classList.add('active');
+invitation.classList.add("hidden");
+
+scene.classList.add("active");
 
 audio.play().catch(()=>{});
-audio.volume=1;
 
 setTimeout(()=>{
-btn.classList.add('visible');
-},46000);
+
+btn.classList.add("visible");
+
+},44000);
 
 }
 
-invitation.addEventListener('click',startExperience);
-invitation.addEventListener('touchstart',startExperience);
+invitation.addEventListener("click",startExperience);
 
 })();
 
