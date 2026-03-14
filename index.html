@@ -1,243 +1,63 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dans l'ombre — générique</title>
-  <link rel="icon" type="image/jpeg" href="icone.jpeg">
-  <link rel="apple-touch-icon" href="icone.jpeg">
-  <!-- polices élégantes et lisibles -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <title>Test Star Wars</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
 
-    body {
-      height: 100vh;
-      overflow: hidden;
-      background: #000;
-      color: #e8dcc8;
-      font-family: 'Cormorant Garamond', Georgia, serif;
-    }
+        /* Conteneur 3D */
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            perspective: 200px;
+            perspective-origin: 50% 0%;
+            overflow: hidden;
+        }
 
-    .background {
-      position: fixed;
-      inset: 0;
-      background-image: url("fondecran.jpg");
-      background-size: cover;
-      background-position: center;
-      z-index: 0;
-      filter: grayscale(40%) contrast(1.1) brightness(0.9);
-    }
+        /* Texte en perspective */
+        .crawl {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 100px;  /* Taille énorme fixe */
+            font-weight: bold;
+            line-height: 1.5;
+            color: #FFD700;
+            transform-origin: 50% 100%;
+            transform: rotateX(30deg); /* Angle fort */
+            animation: crawl 20s linear forwards;
+        }
 
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%);
-      z-index: 1;
-    }
+        @keyframes crawl {
+            0% { top: 100%; }
+            100% { top: -200%; }
+        }
 
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0.06;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 180px;
-    }
-
-    .scene {
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      perspective: 600px;           /* perspective modérée */
-      perspective-origin: 50% 80%;
-      overflow: hidden;
-    }
-
-    .crawl-wrapper {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      width: 100%;
-      max-width: none;
-      transform: translateX(-50%) rotateX(6deg); /* angle légèrement réduit pour plus de largeur apparente */
-      transform-origin: 50% 100%;
-      animation: crawl 45s linear forwards;  /* durée exacte de 45 secondes */
-      will-change: transform, opacity;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    @keyframes crawl {
-      0% {
-        top: 100%;
-        opacity: 1;
-      }
-      15% {
-        opacity: 1;
-      }
-      95% {
-        opacity: 1;
-      }
-      100% {
-        top: -900%;                 /* sortie garantie (valeur ajustée pour la hauteur du texte) */
-        opacity: 0;
-      }
-    }
-
-    /* Police encore plus grande, basée sur la largeur de l'écran */
-    .crawl-wrapper p {
-      font-size: clamp(8rem, 18vw, 28rem);   /* encore plus grand */
-      font-weight: 300;
-      line-height: 1.3;
-      letter-spacing: 0.03em;
-      margin-bottom: 0.8em;
-      color: #f0e6d2;
-      text-shadow:
-        0 0 60px rgba(230, 190, 140, 0.6),
-        0 0 120px rgba(0, 0, 0, 0.9),
-        0 10px 25px #000;
-      white-space: pre-wrap;
-      word-break: break-word;
-      width: 100%;
-    }
-
-    /* Dernière phrase majestueuse */
-    .crawl-wrapper p.final {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(14rem, 28vw, 48rem);  /* encore plus grand */
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #fff7e6;
-      text-shadow:
-        0 0 100px rgba(255, 200, 120, 0.8),
-        0 0 200px rgba(255, 160, 60, 0.6),
-        0 15px 40px #000;
-      margin-top: 0.5em;
-    }
-
-    /* Bouton discret */
-    .btn-continue {
-      position: fixed;
-      bottom: 32px;
-      right: 42px;
-      z-index: 20;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(210, 190, 160, 0.4);
-      color: rgba(220, 200, 170, 0.5);
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      text-transform: lowercase;
-      cursor: pointer;
-      padding: 6px 4px 8px;
-      opacity: 0;
-      transition: opacity 1.8s ease, color 0.3s, border-color 0.3s;
-      pointer-events: none;
-      backdrop-filter: blur(2px);
-    }
-
-    .btn-continue.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .btn-continue:hover {
-      color: #f0e0c0;
-      border-bottom-color: rgba(240, 210, 160, 0.8);
-    }
-
-    audio {
-      position: absolute;
-      width: 0;
-      height: 0;
-      opacity: 0;
-      pointer-events: none;
-    }
-  </style>
+        p {
+            margin: 0;
+            padding: 20px 0;
+        }
+    </style>
 </head>
 <body>
-  <div class="background"></div>
-  <div class="overlay"></div>
-  <div class="grain"></div>
-
-  <!-- balise audio avec lecture automatique et boucle -->
-  <audio autoplay loop playsinline id="introAudio">
-    <source src="musique_intro.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="scene">
-    <div class="crawl-wrapper">
-      <p>Longtemps avant que le monde<br>ne s'allume…</p>
-      <p>nous étions déjà là.</p>
-      <p>
-        Les mains dans le froid,<br>
-        les genoux dans la poussière,<br>
-        portant un univers entier<br>
-        qui n'avait pas le droit de vaciller.
-      </p>
-      <p>
-        Nous combattions sans relâche la chute.<br>
-        En silence.
-      </p>
-      <p>
-        Laissant un peu de nous dans chaque recoin,<br>
-        pour que le rêve tienne debout.
-      </p>
-      <p>
-        Ceux qui tombent ensemble<br>
-        ne tombent jamais seuls.
-      </p>
-      <p>Fiers d'un orgueil que rien n'efface.</p>
-      <p>
-        Et puis la rumeur commença à gronder —<br>
-        jusqu'à ce que l'artiste franchisse<br>
-        le cercle incandescent.
-      </p>
-      <p class="final">ET LE MONDE S'EMBRASE</p>
+    <div class="scene">
+        <div class="crawl">
+            <p>Longtemps avant que le monde ne s'allume…</p>
+            <p>nous étions déjà là.</p>
+            <p>Les mains dans le froid,</p>
+            <p>les genoux dans la poussière,</p>
+            <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
+        </div>
     </div>
-  </div>
-
-  <button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">
-    go on?
-  </button>
-
-  <script>
-    (function() {
-      const audio = document.getElementById('introAudio');
-      const btn = document.getElementById('btnContinue');
-      
-      // Gestion de l'autoplay avec fallback si le navigateur bloque
-      let playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Si autoplay bloqué, on attend une interaction pour lancer l'audio
-          const startAudio = () => {
-            audio.play().catch(e => console.log('Échec lecture audio'));
-            document.removeEventListener('click', startAudio);
-            document.removeEventListener('touchstart', startAudio);
-            document.removeEventListener('keydown', startAudio);
-          };
-          document.addEventListener('click', startAudio, { once: true });
-          document.addEventListener('touchstart', startAudio, { once: true });
-          document.addEventListener('keydown', startAudio, { once: true });
-        });
-      }
-      
-      // Bouton apparaît après 40 secondes (juste avant la fin du crawl)
-      setTimeout(() => {
-        btn.classList.add('visible');
-      }, 40000); // 40 secondes
-    })();
-  </script>
 </body>
 </html>
