@@ -96,8 +96,8 @@
       position: fixed;
       inset: 0;
       z-index: 5;
-      perspective: 200px;           /* identique au test */
-      perspective-origin: 50% 0%;   /* point de fuite en haut */
+      perspective: 200px;
+      perspective-origin: 50% 0%;
       overflow: hidden;
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -108,43 +108,41 @@
       opacity: 1;
     }
 
-    /* Le texte qui défile - paramètres du test */
+    /* Le texte qui défile */
     .crawl {
       position: absolute;
-      top: 100%;
+      top: 100%;                    /* commence hors champ en bas */
       left: 0;
       width: 100%;
       text-align: center;
-      font-size: 100px;            /* taille fixe énorme */
+      font-size: 100px;
       font-weight: 300;
       line-height: 1.5;
-      color: rgba(255, 245, 230, 0.95); /* blanc doux */
+      color: rgba(255, 245, 230, 0.95);
       transform-origin: 50% 100%;
-      transform: rotateX(30deg);    /* angle fort */
+      transform: rotateX(30deg);
       animation: crawl 45s linear forwards;
       font-family: 'Cormorant Garamond', serif;
       text-shadow: 0 0 40px rgba(255, 230, 200, 0.5), 0 0 80px rgba(0,0,0,0.8), 0 8px 15px #000;
     }
 
     @keyframes crawl {
-      0% { top: 100%; }
-      100% { top: -300%; }          /* ajusté pour que tout le texte sorte */
+      0% { top: 100%; }              /* départ en bas */
+      100% { top: -350%; }            /* sortie complète (ajusté) */
     }
 
-    /* Ajustement pour les petits écrans */
+    /* Ajustement pour petits écrans */
     @media (max-width: 800px) {
       .crawl {
         font-size: 12vw;
       }
     }
 
-    /* Paragraphes */
     .crawl p {
       margin: 0;
       padding: 20px 0;
     }
 
-    /* Dernière phrase plus imposante */
     .crawl .final {
       font-size: 150px;
       font-weight: 600;
@@ -245,7 +243,7 @@
         // Faire disparaître l'invitation
         invitation.classList.add('hidden');
 
-        // Activer le crawl
+        // Activer le crawl (le texte commence à top:100% donc en bas)
         scene.classList.add('active');
 
         // Lancer l'audio
