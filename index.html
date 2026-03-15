@@ -15,11 +15,7 @@
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 height:100vh;
@@ -28,7 +24,7 @@ background:#000;
 font-family:'Marcellus',serif;
 }
 
-/* IMAGE DE FOND */
+/* fond */
 
 .background{
 position:fixed;
@@ -40,16 +36,12 @@ z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
 
-/* VOILE */
-
 .overlay{
 position:fixed;
 inset:0;
 background:radial-gradient(circle at 50% 30%,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85) 100%);
 z-index:1;
 }
-
-/* GRAIN CINÉMA */
 
 .grain{
 position:fixed;
@@ -61,54 +53,40 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilte
 background-size:150px;
 }
 
-/* BOUTON MY WORLD */
+/* bouton */
 
 .invitation{
-
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-
 color:#ffe9b8;
 font-size:1.7rem;
 letter-spacing:0.35em;
-
 border:none;
 background:transparent;
 cursor:pointer;
-
 text-shadow:0 0 20px rgba(255,230,180,0.7);
-
 animation:pulse 3s infinite;
-
 z-index:20;
-
 }
 
 @keyframes pulse{
-
 0%{opacity:0.4;}
 50%{opacity:1;}
 100%{opacity:0.4;}
-
 }
 
-/* SCÈNE 3D */
+/* scène */
 
 .scene{
-
 position:fixed;
 inset:0;
-
 perspective:650px;
 perspective-origin:50% 95%;
-
 overflow:hidden;
-
 opacity:0;
 transition:opacity .5s;
-
 z-index:5;
 
 /* disparition dans le noir */
@@ -126,14 +104,13 @@ black 50%,
 rgba(0,0,0,0.9) 70%,
 rgba(0,0,0,0.3) 85%,
 transparent 100%);
-
 }
 
 .scene.active{
 opacity:1;
 }
 
-/* TEXTE */
+/* texte */
 
 .crawl-wrapper{
 
@@ -149,29 +126,22 @@ transform-origin:50% 100%;
 text-align:center;
 line-height:1.6;
 
-animation:none;
+animation:crawl 110s linear forwards;
+animation-play-state:paused;
 
 }
 
-/* ANIMATION */
+/* animation */
 
 @keyframes crawl{
-
-0%{
-top:100%;
-}
-
-100%{
-top:-900%;
-}
-
+0%{top:100%;}
+100%{top:-900%;}
 }
 
 .crawl-wrapper p{
 
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
-
 margin-bottom:1.2em;
 
 color:#ffe9b8;
@@ -180,10 +150,7 @@ text-shadow:
 0 0 40px rgba(255,220,160,0.7),
 0 0 80px rgba(0,0,0,0.9),
 0 10px 20px #000;
-
 }
-
-/* DERNIÈRE PHRASE */
 
 .crawl-wrapper p.final{
 
@@ -196,12 +163,9 @@ text-shadow:
 0 0 100px rgba(255,230,170,1),
 0 0 180px rgba(255,210,130,0.8),
 0 0 280px rgba(255,190,80,0.6);
-
 }
 
-audio{
-display:none;
-}
+audio{display:none;}
 
 </style>
 </head>
@@ -256,8 +220,6 @@ const scene=document.getElementById("scene")
 const audio=document.getElementById("introAudio")
 const crawl=document.getElementById("crawl")
 
-const crawlDuration=110
-
 let started=false
 
 function startExperience(){
@@ -269,7 +231,7 @@ invitation.style.display="none"
 
 scene.classList.add("active")
 
-crawl.style.animation=`crawl ${crawlDuration}s linear forwards`
+crawl.style.animationPlayState="running"
 
 audio.play().catch(()=>{})
 
