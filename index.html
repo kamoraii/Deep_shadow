@@ -61,23 +61,22 @@ background-size:150px;
 
 .invitation{
 position:fixed;
-bottom:40px;
-left:40px;
-color:rgba(255,240,210,0.7);
-font-size:1.3rem;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:#ffe9b8;
+font-size:1.6rem;
 letter-spacing:0.35em;
 border:none;
 background:transparent;
 cursor:pointer;
-z-index:10;
-text-shadow:0 0 20px rgba(255,230,180,0.4);
+z-index:20;
+text-shadow:0 0 20px rgba(255,230,180,0.6);
 animation:pulse 3s infinite;
 }
 
 .invitation.hidden{
-opacity:0;
-pointer-events:none;
-transition:opacity 1s ease;
+display:none;
 }
 
 @keyframes pulse{
@@ -92,7 +91,7 @@ transition:opacity 1s ease;
 position:fixed;
 inset:0;
 z-index:5;
-perspective:500px;
+perspective:520px;
 perspective-origin:50% 85%;
 overflow:hidden;
 opacity:0;
@@ -283,7 +282,7 @@ function startExperience(){
 if(started) return
 started=true
 
-invitation.classList.add("hidden")
+invitation.style.display="none"
 
 scene.classList.add("active")
 
