@@ -15,7 +15,7 @@
 
 <style>
 
-{
+*{
 margin:0;
 padding:0;
 box-sizing:border-box;
@@ -28,7 +28,7 @@ background:#000;
 font-family:'Cormorant Garamond',serif;
 }
 
-/ fond /
+/* fond */
 
 .background{
 position:fixed;
@@ -40,12 +40,16 @@ z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
 
+/* voile */
+
 .overlay{
 position:fixed;
 inset:0;
-background:radial-gradient(circle at 50% 30%, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+background:radial-gradient(circle at 50% 30%,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85) 100%);
 z-index:1;
 }
+
+/* grain */
 
 .grain{
 position:fixed;
@@ -53,11 +57,11 @@ inset:0;
 z-index:2;
 pointer-events:none;
 opacity:0.05;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 background-size:150px;
 }
 
-/ bouton my world /
+/* bouton my world */
 
 .invitation{
 position:fixed;
@@ -66,12 +70,17 @@ left:40px;
 color:rgba(255,245,230,0.6);
 font-size:1.3rem;
 letter-spacing:0.3em;
-cursor:pointer;
-z-index:10;
-padding:8px 16px;
 border:none;
 background:transparent;
+cursor:pointer;
+z-index:10;
+text-shadow:0 0 15px rgba(255,245,230,0.4);
 animation:pulse 3s infinite;
+}
+
+.invitation.hidden{
+opacity:0;
+pointer-events:none;
 }
 
 @keyframes pulse{
@@ -80,89 +89,77 @@ animation:pulse 3s infinite;
 100%{opacity:0.4;}
 }
 
-.invitation.hidden{
-opacity:0;
-pointer-events:none;
-}
-
-/ scène /
+/* scène */
 
 .scene{
 position:fixed;
 inset:0;
 z-index:5;
-perspective:220px;
-perspective-origin:50% 0%;
+perspective:450px;
+perspective-origin:50% 85%;
 overflow:hidden;
 opacity:0;
-transition:opacity 0.3s ease;
+transition:opacity .5s;
 }
 
 .scene.active{
 opacity:1;
 }
 
-/ texte /
+/* texte */
 
 .crawl-wrapper{
-
 position:absolute;
-top:140%;
+top:100%;
 left:50%;
-
-width:150%;
+width:120%;
 max-width:none;
-
-transform:translateX(-50%) rotateX(28deg);
+transform:translateX(-50%) rotateX(20deg);
 transform-origin:50% 100%;
-
-animation:none;
-
 text-align:center;
 line-height:1.6;
+animation:none;
 }
 
-/ animation /
+/* animation */
 
 @keyframes crawl{
-
 0%{
 top:100%;
 }
 
 100%{
-top:-800%;
+top:-700%;
+}
 }
 
-}
-
-/ style texte /
+/* texte */
 
 .crawl-wrapper p{
 
-font-size:3.2rem;
+font-size:clamp(1.8rem,4vw,3rem);
 font-weight:300;
 letter-spacing:0.03em;
-margin-bottom:1.4em;
+margin-bottom:1.2em;
 
 color:rgba(255,245,230,0.95);
 
 text-shadow:
 0 0 40px rgba(255,230,200,0.5),
-0 0 80px rgba(0,0,0,0.8),
+0 0 80px rgba(0,0,0,0.9),
 0 8px 15px #000;
 
 }
 
-/ phrase finale /
+/* phrase finale */
 
 .crawl-wrapper p.final{
 
+font-size:clamp(2.5rem,6vw,4rem);
 font-weight:600;
-font-size:4rem;
 letter-spacing:0.1em;
 
-color:#fff;
+color:white;
 
 text-shadow:
 0 0 70px rgba(255,240,210,0.7),
@@ -171,7 +168,7 @@ text-shadow:
 
 }
 
-/ bouton suite */
+/* bouton go on */
 
 .btn-continue{
 
@@ -191,9 +188,9 @@ letter-spacing:0.3em;
 cursor:pointer;
 
 opacity:0;
-transition:opacity 1.8s ease;
 
-z-index:20;
+transition:opacity 1.8s;
+
 }
 
 .btn-continue.visible{
@@ -221,85 +218,68 @@ display:none;
 
 <div class="scene" id="scene">
 
-<div class="crawl-wrapper">
+<div class="crawl-wrapper" id="crawl">
 
 <p>Longtemps avant que le monde ne s'allume…</p>
-
 <p>nous étions déjà là.</p>
 
 <p>Les mains dans le froid,</p>
-
 <p>les genoux dans la poussière,</p>
-
 <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
 
 <p>Nous combattions sans relâche la chute.</p>
-
 <p>En silence.</p>
 
 <p>Laissant un peu de nous dans chaque recoin,</p>
-
 <p>pour que le rêve tienne debout.</p>
 
 <p>Ceux qui tombent ensemble</p>
-
 <p>ne tombent jamais seuls.</p>
 
 <p>Fiers d'un orgueil que rien n'efface.</p>
 
 <p>Et puis la rumeur commença à gronder —</p>
-
 <p>jusqu'à ce que l'artiste franchisse</p>
-
 <p>le cercle incandescent.</p>
 
 <p class="final">Et le monde s'embrase.</p>
 
 </div>
-
 </div>
 
-<button class="btn-continue" id="btnContinue" onclick="window.location.href='page2.html'">
-go on?
-</button>
+<button class="btn-continue" id="btnContinue">go on?</button>
 
 <script>
 
-const invitation=document.getElementById('invitation');
-const scene=document.getElementById('scene');
-const audio=document.getElementById('introAudio');
-const btn=document.getElementById('btnContinue');
+const invitation=document.getElementById("invitation")
+const scene=document.getElementById("scene")
+const audio=document.getElementById("introAudio")
+const crawl=document.getElementById("crawl")
+const btn=document.getElementById("btnContinue")
 
-let experienceStarted=false;
+let started=false
 
 function startExperience(){
 
-if(experienceStarted) return;
+if(started) return
+started=true
 
-experienceStarted=true;
+invitation.classList.add("hidden")
 
-invitation.classList.add('hidden');
+scene.classList.add("active")
 
-scene.classList.add('active');
+crawl.style.animation="crawl 48s linear forwards"
 
-const crawl=document.querySelector('.crawl-wrapper');
-
-crawl.style.top="100%";
-
-crawl.style.animation="crawl 48s linear forwards";
-
-audio.volume=1;
-
-audio.play().catch(e=>console.log(e));
+audio.play().catch(()=>{})
 
 setTimeout(()=>{
-btn.classList.add('visible');
-},46000);
+btn.classList.add("visible")
+},46000)
 
 }
 
-invitation.addEventListener('click',startExperience);
-invitation.addEventListener('touchstart',startExperience);
+invitation.addEventListener("click",startExperience)
+invitation.addEventListener("touchstart",startExperience)
 
 </script>
 
