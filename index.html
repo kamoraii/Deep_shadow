@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dans l'ombre</title>
 
 <link rel="icon" type="image/jpeg" href="icone.jpeg">
@@ -15,7 +16,11 @@
 
 <style>
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 height:100vh;
@@ -56,19 +61,27 @@ background-size:150px;
 /* bouton */
 
 .invitation{
+
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
+
 color:#ffe9b8;
 font-size:1.7rem;
 letter-spacing:0.35em;
+
 border:none;
 background:transparent;
+
 cursor:pointer;
+
 text-shadow:0 0 20px rgba(255,230,180,0.7);
+
 animation:pulse 3s infinite;
+
 z-index:20;
+
 }
 
 @keyframes pulse{
@@ -80,16 +93,19 @@ z-index:20;
 /* scène */
 
 .scene{
+
 position:fixed;
 inset:0;
+
 perspective:650px;
 perspective-origin:50% 95%;
+
 overflow:hidden;
+
 opacity:0;
 transition:opacity .5s;
-z-index:5;
 
-/* disparition dans le noir */
+z-index:5;
 
 mask-image: linear-gradient(to top,
 black 0%,
@@ -104,6 +120,7 @@ black 50%,
 rgba(0,0,0,0.9) 70%,
 rgba(0,0,0,0.3) 85%,
 transparent 100%);
+
 }
 
 .scene.active{
@@ -126,22 +143,29 @@ transform-origin:50% 100%;
 text-align:center;
 line-height:1.6;
 
-animation:crawl 110s linear forwards;
-animation-play-state:paused;
+animation:none;
 
 }
 
 /* animation */
 
 @keyframes crawl{
-0%{top:100%;}
-100%{top:-900%;}
+
+0%{
+top:100%;
+}
+
+100%{
+top:-900%;
+}
+
 }
 
 .crawl-wrapper p{
 
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
+
 margin-bottom:1.2em;
 
 color:#ffe9b8;
@@ -150,6 +174,7 @@ text-shadow:
 0 0 40px rgba(255,220,160,0.7),
 0 0 80px rgba(0,0,0,0.9),
 0 10px 20px #000;
+
 }
 
 .crawl-wrapper p.final{
@@ -163,9 +188,12 @@ text-shadow:
 0 0 100px rgba(255,230,170,1),
 0 0 180px rgba(255,210,130,0.8),
 0 0 280px rgba(255,190,80,0.6);
+
 }
 
-audio{display:none;}
+audio{
+display:none;
+}
 
 </style>
 </head>
@@ -231,7 +259,7 @@ invitation.style.display="none"
 
 scene.classList.add("active")
 
-crawl.style.animationPlayState="running"
+crawl.style.animation="crawl 110s linear forwards"
 
 audio.play().catch(()=>{})
 
