@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -264,10 +265,18 @@ if(experienceStarted) return;
 experienceStarted=true;
 
 invitation.classList.add('hidden');
-scene.classList.add('active');
-crawl.style.top = "100%";
-document.querySelector('.crawl-wrapper').style.animation = "crawl 48s linear forwards";
+experienceStarted=true;
 
+invitation.classList.add('hidden');
+scene.classList.add('active');
+
+const crawl = document.querySelector('.crawl-wrapper');
+crawl.style.top = "100%";
+crawl.style.animation = "crawl 48s linear forwards";
+
+audio.play().catch(e=>console.log('Audio error:',e));
+
+audio.volume=1;
 audio.play().catch(e=>console.log('Audio error:',e));
 
 audio.volume=1;
