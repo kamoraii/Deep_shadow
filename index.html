@@ -24,7 +24,7 @@ background:#000;
 font-family:'Marcellus',serif;
 }
 
-/* fond */
+/* IMAGE FOND */
 
 .background{
 position:fixed;
@@ -36,7 +36,7 @@ z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
 
-/* voile */
+/* VOILE */
 
 .overlay{
 position:fixed;
@@ -45,7 +45,7 @@ background:radial-gradient(circle at 50% 30%,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85)
 z-index:1;
 }
 
-/* grain */
+/* GRAIN */
 
 .grain{
 position:fixed;
@@ -57,7 +57,7 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilte
 background-size:150px;
 }
 
-/* bouton my world */
+/* BOUTON MY WORLD */
 
 .invitation{
 position:fixed;
@@ -74,7 +74,11 @@ text-shadow:0 0 20px rgba(255,230,180,0.4);
 animation:pulse 3s infinite;
 }
 
-.invitation.hidden{opacity:0;pointer-events:none;}
+.invitation.hidden{
+opacity:0;
+pointer-events:none;
+transition:opacity 1s ease;
+}
 
 @keyframes pulse{
 0%{opacity:0.4;}
@@ -82,43 +86,45 @@ animation:pulse 3s infinite;
 100%{opacity:0.4;}
 }
 
-/* scène */
+/* SCÈNE 3D */
 
 .scene{
 position:fixed;
 inset:0;
 z-index:5;
-perspective:450px;
+perspective:500px;
 perspective-origin:50% 85%;
 overflow:hidden;
 opacity:0;
 transition:opacity .5s;
 }
 
-.scene.active{opacity:1;}
+.scene.active{
+opacity:1;
+}
 
-/* texte */
+/* TEXTE */
 
 .crawl-wrapper{
 position:absolute;
 top:100%;
 left:50%;
-width:120%;
-transform:translateX(-50%) rotateX(20deg);
+width:130%;
+transform:translateX(-50%) rotateX(22deg);
 transform-origin:50% 100%;
 text-align:center;
 line-height:1.6;
 animation:none;
 }
 
-/* animation */
+/* ANIMATION */
 
 @keyframes crawl{
 0%{top:100%;}
 100%{top:-700%;}
 }
 
-/* texte principal */
+/* TEXTE PRINCIPAL */
 
 .crawl-wrapper p{
 
@@ -135,7 +141,7 @@ text-shadow:
 
 }
 
-/* phrase finale */
+/* PHRASE FINALE */
 
 .crawl-wrapper p.final{
 
@@ -145,43 +151,43 @@ letter-spacing:0.14em;
 color:#ffe9b8;
 
 text-shadow:
-0 0 90px rgba(255,230,170,1),
-0 0 160px rgba(255,210,130,0.8),
-0 0 260px rgba(255,190,80,0.6),
-0 0 380px rgba(255,170,40,0.4);
+0 0 100px rgba(255,230,170,1),
+0 0 180px rgba(255,210,130,0.8),
+0 0 280px rgba(255,190,80,0.6),
+0 0 420px rgba(255,170,40,0.5);
 
 animation:finalFlash 3s ease-in-out infinite;
 
 }
 
-/* flash discret */
+/* HALO FINAL */
 
 @keyframes finalFlash{
 
 0%{
 text-shadow:
-0 0 80px rgba(255,230,170,0.7),
-0 0 140px rgba(255,210,130,0.6),
-0 0 220px rgba(255,190,80,0.4);
+0 0 90px rgba(255,230,170,0.7),
+0 0 160px rgba(255,210,130,0.6),
+0 0 240px rgba(255,190,80,0.4);
 }
 
 50%{
 text-shadow:
-0 0 140px rgba(255,240,200,1),
-0 0 260px rgba(255,220,150,0.9),
-0 0 360px rgba(255,200,100,0.7);
+0 0 160px rgba(255,240,200,1),
+0 0 300px rgba(255,220,150,0.9),
+0 0 420px rgba(255,200,100,0.7);
 }
 
 100%{
 text-shadow:
-0 0 80px rgba(255,230,170,0.7),
-0 0 140px rgba(255,210,130,0.6),
-0 0 220px rgba(255,190,80,0.4);
+0 0 90px rgba(255,230,170,0.7),
+0 0 160px rgba(255,210,130,0.6),
+0 0 240px rgba(255,190,80,0.4);
 }
 
 }
 
-/* bouton go on */
+/* BOUTON GO ON */
 
 .btn-continue{
 
@@ -206,9 +212,13 @@ transition:opacity 1.8s;
 
 }
 
-.btn-continue.visible{opacity:1;}
+.btn-continue.visible{
+opacity:1;
+}
 
-audio{display:none;}
+audio{
+display:none;
+}
 
 </style>
 </head>
@@ -231,16 +241,22 @@ audio{display:none;}
 
 <p>Longtemps avant que le monde ne s'allume…</p>
 <p>nous étions déjà là.</p>
+
 <p>Les mains dans le froid,</p>
 <p>les genoux dans la poussière,</p>
 <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
+
 <p>Nous combattions sans relâche la chute.</p>
 <p>En silence.</p>
+
 <p>Laissant un peu de nous dans chaque recoin,</p>
 <p>pour que le rêve tienne debout.</p>
+
 <p>Ceux qui tombent ensemble</p>
 <p>ne tombent jamais seuls.</p>
+
 <p>Fiers d'un orgueil que rien n'efface.</p>
+
 <p>Et puis la rumeur commença à gronder —</p>
 <p>jusqu'à ce que l'artiste franchisse</p>
 <p>le cercle incandescent.</p>
