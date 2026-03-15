@@ -111,7 +111,7 @@ transition:opacity .5s;
 
 z-index:5;
 
-/* disparition dans l'horizon */
+/* horizon */
 
 mask-image: linear-gradient(to top,
 black 0%,
@@ -181,12 +181,9 @@ text-shadow:
 
 }
 
-/* phrase finale */
-
 .crawl-wrapper p.final{
 
 font-size:clamp(2.5rem,6vw,4rem);
-
 letter-spacing:0.14em;
 
 color:#ffe9b8;
@@ -267,6 +264,12 @@ started=true
 invitation.style.display="none"
 
 scene.classList.add("active")
+
+/* position immédiate du texte */
+
+crawl.style.top="100%"
+
+/* lancement animation */
 
 crawl.style.animation=`crawl ${crawlDuration}s linear forwards`
 
