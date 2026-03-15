@@ -26,7 +26,6 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
-font-family:'Cormorant Garamond',serif;
 }
 
 / fond /
@@ -64,25 +63,29 @@ background-size:150px;
 position:fixed;
 bottom:40px;
 left:40px;
-color:rgba(255,245,230,0.7);
+color:rgba(255,245,230,0.6);
+font-family:'Cormorant Garamond',serif;
 font-size:1.3rem;
 letter-spacing:0.3em;
 cursor:pointer;
 z-index:10;
+padding:8px 16px;
 border:none;
 background:transparent;
+transition:opacity 0.5s ease;
+text-shadow:0 0 15px rgba(255,245,230,0.4);
 animation:pulse 3s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:.4}
-50%{opacity:1}
-100%{opacity:.4}
 }
 
 .invitation.hidden{
 opacity:0;
 pointer-events:none;
+}
+
+@keyframes pulse{
+0%{opacity:0.4;}
+50%{opacity:1;}
+100%{opacity:0.4;}
 }
 
 / scene /
@@ -95,7 +98,7 @@ perspective:400px;
 perspective-origin:50% 80%;
 overflow:hidden;
 opacity:0;
-transition:opacity .4s;
+transition:opacity .3s ease;
 }
 
 .scene.active{
@@ -105,99 +108,91 @@ opacity:1;
 / crawl /
 
 .crawl-wrapper{
-
 position:absolute;
-
-/ démarre sous l'écran /
-
-top:110%;
-
+top:120%; / démarre sous l'écran /
 left:50%;
-
-width:90%;
-max-width:1200px;
-
+width:92%;
+max-width:1400px;
 transform:translateX(-50%) rotateX(18deg);
-
 transform-origin:50% 100%;
-
 animation:crawl 48s linear forwards;
-
 text-align:center;
-
+line-height:1.6;
 }
 
 / animation /
 
 @keyframes crawl{
-
 0%{
-top:110%;
+top:120%;
+opacity:1;
 }
-
+15%{
+opacity:1;
+}
+95%{
+opacity:1;
+}
 100%{
-top:-600%;
+top:-800%;
+opacity:0;
 }
-
 }
 
 / texte /
 
 .crawl-wrapper p{
-
-font-size:clamp(2rem,4vw,3.2rem);
-
-line-height:1.7;
-
-margin-bottom:2rem;
-
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2rem,4vw,3rem);
+font-weight:300;
+line-height:1.4;
+letter-spacing:0.02em;
+margin-bottom:0.8em;
 color:rgba(255,245,230,0.95);
-
 text-shadow:
-0 0 30px rgba(255,230,200,.4),
-0 0 60px rgba(0,0,0,.9),
-0 6px 12px #000;
-
+0 0 40px rgba(255,230,200,0.5),
+0 0 80px rgba(0,0,0,0.8),
+0 8px 15px #000;
 }
 
-/ phrase finale /
+/ dernière phrase /
 
 .crawl-wrapper p.final{
-
-font-size:clamp(3rem,5vw,4rem);
-
 font-weight:600;
-
+font-size:clamp(3rem,5vw,4rem);
+letter-spacing:0.1em;
+color:rgba(255,250,240,1);
+text-shadow:
+0 0 70px rgba(255,240,210,0.7),
+0 0 140px rgba(0,0,0,0.9),
+0 15px 30px #000;
+margin-top:0.8em;
 }
 
-/ bouton final */
+/ bouton go on */
 
 .btn-continue{
-
 position:fixed;
 bottom:32px;
 right:42px;
-
+z-index:20;
 background:transparent;
 border:none;
-
-border-bottom:1px solid rgba(230,220,200,.35);
-
-color:rgba(230,220,200,.6);
-
+border-bottom:1px solid rgba(230,220,200,0.35);
+color:rgba(230,220,200,0.5);
+font-family:'Cormorant Garamond',serif;
 font-size:1rem;
-letter-spacing:.3em;
-
+letter-spacing:0.3em;
 cursor:pointer;
-
+padding:6px 4px 8px;
 opacity:0;
-
-transition:opacity 1.5s;
-
+transition:opacity 1.8s ease;
+pointer-events:none;
 }
 
 .btn-continue.visible{
 opacity:1;
+pointer-events:auto;
 }
 
 audio{
@@ -264,38 +259,65 @@ display:none;
 
 (function(){
 
-const invitation=document.getElementById("invitation");
-const scene=document.getElementById("scene");
-const audio=document.getElementById("introAudio");
-const btn=document.getElementById("btnContinue");
+const invitation=document.getElementById('invitation');
+const scene=document.getElementById('scene');
+const audio=document.getElementById('introAudio');
+const btn=document.getElementById('btnContinue');
 
-let started=false;
+let experienceStarted=false;
 
 function startExperience(){
 
-if(started)return;
+if(experienceStarted) return;
 
-started=true;
+experienceStarted=true;
 
-invitation.classList.add("hidden");
+invitation.classList.add('hidden');
+scene.classList.add('active');
 
-scene.classList.add("active");
+audio.play().catch(e=>console.log('Audio error:',e));
 
-audio.play().catch(()=>{});
+audio.volume=1;
 
 setTimeout(()=>{
 
-btn.classList.add("visible");
+const fadeStartTime=Date.now();
+const fadeDuration=8000;
 
-},44000);
+function fadeOut(){
+
+const elapsed=Date.now()-fadeStartTime;
+
+const progress=Math.min(elapsed/fadeDuration,1);
+
+audio.volume=Math.max(0,1-progress);
+
+if(progress<1){
+
+requestAnimationFrame(fadeOut);
 
 }
 
-invitation.addEventListener("click",startExperience);
+}
+
+requestAnimationFrame(fadeOut);
+
+},40000);
+
+setTimeout(()=>{
+
+btn.classList.add('visible');
+
+},46000);
+
+}
+
+invitation.addEventListener('click',startExperience);
+invitation.addEventListener('touchstart',startExperience);
 
 })();
 
 </script>
 
 </body>
-</html> 
+</html>
