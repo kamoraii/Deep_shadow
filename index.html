@@ -15,11 +15,7 @@
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 height:100vh;
@@ -27,8 +23,6 @@ overflow:hidden;
 background:#000;
 font-family:'Cormorant Garamond',serif;
 }
-
-/* fond */
 
 .background{
 position:fixed;
@@ -40,16 +34,12 @@ z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
 
-/* voile */
-
 .overlay{
 position:fixed;
 inset:0;
 background:radial-gradient(circle at 50% 30%,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85) 100%);
 z-index:1;
 }
-
-/* grain */
 
 .grain{
 position:fixed;
@@ -60,8 +50,6 @@ opacity:0.05;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 background-size:150px;
 }
-
-/* bouton my world */
 
 .invitation{
 position:fixed;
@@ -78,18 +66,13 @@ text-shadow:0 0 15px rgba(255,245,230,0.4);
 animation:pulse 3s infinite;
 }
 
-.invitation.hidden{
-opacity:0;
-pointer-events:none;
-}
+.invitation.hidden{opacity:0;pointer-events:none;}
 
 @keyframes pulse{
 0%{opacity:0.4;}
 50%{opacity:1;}
 100%{opacity:0.4;}
 }
-
-/* scène */
 
 .scene{
 position:fixed;
@@ -102,11 +85,7 @@ opacity:0;
 transition:opacity .5s;
 }
 
-.scene.active{
-opacity:1;
-}
-
-/* texte */
+.scene.active{opacity:1;}
 
 .crawl-wrapper{
 position:absolute;
@@ -121,85 +100,55 @@ line-height:1.6;
 animation:none;
 }
 
-/* animation */
-
 @keyframes crawl{
 0%{top:100%;}
 100%{top:-700%;}
 }
 
-/* texte principal */
-
 .crawl-wrapper p{
-
 font-size:clamp(1.8rem,4vw,3rem);
 font-weight:400;
-
 letter-spacing:0.04em;
 margin-bottom:1.2em;
-
-color:#f4efe6;
-
-text-shadow:
-0 0 40px rgba(255,230,200,0.45),
-0 0 80px rgba(0,0,0,0.9),
-0 8px 18px #000;
-
+color:#fff3d6;
+text-shadow:0 0 50px rgba(255,230,180,0.7),0 0 90px rgba(0,0,0,0.9),0 10px 20px #000;
 }
-
-/* phrase finale */
 
 .crawl-wrapper p.final{
-
 font-size:clamp(2.5rem,6vw,4rem);
 font-weight:600;
-
 letter-spacing:0.12em;
-
-color:#fff6e8;
-
-text-shadow:
-0 0 80px rgba(255,230,200,0.6),
-0 0 140px rgba(0,0,0,0.9),
-0 15px 35px #000;
-
+color:#fff3d6;
+text-shadow:0 0 90px rgba(255,230,180,0.9),0 0 160px rgba(255,210,120,0.7),0 0 220px rgba(255,190,80,0.5),0 15px 40px #000;
+animation:finalGlow 3s ease-in-out infinite;
 }
 
-/* bouton go on */
+@keyframes finalGlow{
+0%{text-shadow:0 0 90px rgba(255,230,180,0.7),0 0 160px rgba(255,210,120,0.6),0 0 220px rgba(255,190,80,0.4);}
+50%{text-shadow:0 0 130px rgba(255,230,180,1),0 0 220px rgba(255,210,120,0.9),0 0 300px rgba(255,190,80,0.7);}
+100%{text-shadow:0 0 90px rgba(255,230,180,0.7),0 0 160px rgba(255,210,120,0.6),0 0 220px rgba(255,190,80,0.4);}
+}
 
 .btn-continue{
-
 position:fixed;
 bottom:32px;
 right:42px;
-
 background:transparent;
 border:none;
 border-bottom:1px solid rgba(230,220,200,0.35);
-
 color:rgba(230,220,200,0.6);
-
 font-size:1rem;
 letter-spacing:0.3em;
-
 cursor:pointer;
-
 opacity:0;
-
 transition:opacity 1.8s;
-
 }
 
-.btn-continue.visible{
-opacity:1;
-}
+.btn-continue.visible{opacity:1;}
 
-audio{
-display:none;
-}
+audio{display:none;}
 
 </style>
-
 </head>
 
 <body>
@@ -220,26 +169,19 @@ display:none;
 
 <p>Longtemps avant que le monde ne s'allume…</p>
 <p>nous étions déjà là.</p>
-
 <p>Les mains dans le froid,</p>
 <p>les genoux dans la poussière,</p>
 <p>portant un univers entier qui n'avait pas le droit de vaciller.</p>
-
 <p>Nous combattions sans relâche la chute.</p>
 <p>En silence.</p>
-
 <p>Laissant un peu de nous dans chaque recoin,</p>
 <p>pour que le rêve tienne debout.</p>
-
 <p>Ceux qui tombent ensemble</p>
 <p>ne tombent jamais seuls.</p>
-
 <p>Fiers d'un orgueil que rien n'efface.</p>
-
 <p>Et puis la rumeur commença à gronder —</p>
 <p>jusqu'à ce que l'artiste franchisse</p>
 <p>le cercle incandescent.</p>
-
 <p class="final">Et le monde s'embrase.</p>
 
 </div>
