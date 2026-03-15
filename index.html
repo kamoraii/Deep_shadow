@@ -111,6 +111,26 @@ transition:opacity .5s;
 
 z-index:5;
 
+/* disparition du texte dans le noir */
+
+mask-image: linear-gradient(
+to top,
+black 0%,
+black 60%,
+rgba(0,0,0,0.8) 75%,
+rgba(0,0,0,0.4) 85%,
+transparent 100%
+);
+
+-webkit-mask-image: linear-gradient(
+to top,
+black 0%,
+black 60%,
+rgba(0,0,0,0.8) 75%,
+rgba(0,0,0,0.4) 85%,
+transparent 100%
+);
+
 }
 
 .scene.active{
@@ -273,8 +293,6 @@ const audio=document.getElementById("introAudio")
 const crawl=document.getElementById("crawl")
 const btn=document.getElementById("btnContinue")
 
-/* paramètres ajustables */
-
 const crawlDuration = 110
 const fadeStart = 35
 const fadeDuration = 18
@@ -294,8 +312,6 @@ crawl.style.animation=`crawl ${crawlDuration}s linear forwards`
 
 audio.play().catch(()=>{})
 
-/* fade out */
-
 setTimeout(()=>{
 
 const fadeStartTime=Date.now()
@@ -308,14 +324,10 @@ const progress=Math.min(elapsed/fadeDuration,1)
 audio.volume=1-progress
 
 if(progress<1){
-
 requestAnimationFrame(fade)
-
 }else{
-
 audio.volume=0
 audio.pause()
-
 }
 
 }
@@ -323,8 +335,6 @@ audio.pause()
 fade()
 
 },fadeStart*1000)
-
-/* apparition bouton */
 
 setTimeout(()=>{
 btn.classList.add("visible")
