@@ -24,7 +24,7 @@ background:#000;
 font-family:'Marcellus',serif;
 }
 
-/* fond */
+/* IMAGE */
 
 .background{
 position:fixed;
@@ -36,7 +36,7 @@ z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
 
-/* voile */
+/* VOILE */
 
 .overlay{
 position:fixed;
@@ -45,7 +45,7 @@ background:radial-gradient(circle at 50% 30%,rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.85)
 z-index:1;
 }
 
-/* grain */
+/* GRAIN */
 
 .grain{
 position:fixed;
@@ -57,29 +57,22 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilte
 background-size:150px;
 }
 
-/* bouton my world */
+/* BOUTON MY WORLD */
 
 .invitation{
-
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-
 color:#ffe9b8;
 font-size:1.6rem;
 letter-spacing:0.35em;
-
 border:none;
 background:transparent;
 cursor:pointer;
-
-text-shadow:0 0 20px rgba(255,230,180,0.6);
-
-animation:pulse 3s infinite;
-
 z-index:20;
-
+text-shadow:0 0 20px rgba(255,230,180,0.6);
+animation:pulse 3s infinite;
 }
 
 .invitation.hidden{
@@ -87,66 +80,55 @@ display:none;
 }
 
 @keyframes pulse{
-
 0%{opacity:0.4;}
 50%{opacity:1;}
 100%{opacity:0.4;}
-
 }
 
-/* scène */
+/* SCENE */
 
 .scene{
-
 position:fixed;
 inset:0;
-
+z-index:5;
 perspective:520px;
 perspective-origin:50% 85%;
-
 overflow:hidden;
-
 opacity:0;
 transition:opacity .5s;
 
-z-index:5;
-
+mask-image:linear-gradient(to top,black 0%,black 60%,rgba(0,0,0,0.7) 75%,transparent 100%);
+-webkit-mask-image:linear-gradient(to top,black 0%,black 60%,rgba(0,0,0,0.7) 75%,transparent 100%);
 }
 
 .scene.active{
 opacity:1;
 }
 
-/* texte */
+/* TEXTE */
 
 .crawl-wrapper{
-
 position:absolute;
 top:100%;
 left:50%;
-
 width:130%;
-
 transform:translateX(-50%) rotateX(22deg);
 transform-origin:50% 100%;
-
 text-align:center;
 line-height:1.6;
-
 animation:none;
-
 }
 
 @keyframes crawl{
 
 0%{
 top:100%;
-transform:translateX(-50%) rotateX(22deg);
+transform:translateX(-50%) rotateX(22deg) scaleY(1);
 }
 
 100%{
 top:-700%;
-transform:translateX(-50%) rotateX(25deg);
+transform:translateX(-50%) rotateX(25deg) scaleY(0.85);
 }
 
 }
@@ -155,7 +137,6 @@ transform:translateX(-50%) rotateX(25deg);
 
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
-
 margin-bottom:1.2em;
 
 color:#ffe9b8;
@@ -167,12 +148,9 @@ text-shadow:
 
 }
 
-/* phrase finale */
-
 .crawl-wrapper p.final{
 
 font-size:clamp(2.5rem,6vw,4rem);
-
 letter-spacing:0.14em;
 
 color:#ffe9b8;
@@ -180,11 +158,39 @@ color:#ffe9b8;
 text-shadow:
 0 0 100px rgba(255,230,170,1),
 0 0 180px rgba(255,210,130,0.8),
-0 0 280px rgba(255,190,80,0.6);
+0 0 280px rgba(255,190,80,0.6),
+0 0 420px rgba(255,170,40,0.5);
+
+animation:finalFlash 3s ease-in-out infinite;
 
 }
 
-/* bouton go on */
+@keyframes finalFlash{
+
+0%{
+text-shadow:
+0 0 90px rgba(255,230,170,0.7),
+0 0 160px rgba(255,210,130,0.6),
+0 0 240px rgba(255,190,80,0.4);
+}
+
+50%{
+text-shadow:
+0 0 160px rgba(255,240,200,1),
+0 0 300px rgba(255,220,150,0.9),
+0 0 420px rgba(255,200,100,0.7);
+}
+
+100%{
+text-shadow:
+0 0 90px rgba(255,230,170,0.7),
+0 0 160px rgba(255,210,130,0.6),
+0 0 240px rgba(255,190,80,0.4);
+}
+
+}
+
+/* GO ON */
 
 .btn-continue{
 
@@ -273,8 +279,6 @@ const audio=document.getElementById("introAudio")
 const crawl=document.getElementById("crawl")
 const btn=document.getElementById("btnContinue")
 
-/* paramètres ajustables */
-
 const crawlDuration = 110
 const fadeStart = 35
 const fadeDuration = 18
@@ -294,7 +298,7 @@ crawl.style.animation=`crawl ${crawlDuration}s linear forwards`
 
 audio.play().catch(()=>{})
 
-/* fade out */
+/* FADE OUT */
 
 setTimeout(()=>{
 
@@ -308,14 +312,9 @@ const progress=Math.min(elapsed/fadeDuration,1)
 audio.volume=1-progress
 
 if(progress<1){
-
 requestAnimationFrame(fade)
-
 }else{
-
-audio.volume=0
 audio.pause()
-
 }
 
 }
@@ -324,7 +323,7 @@ fade()
 
 },fadeStart*1000)
 
-/* apparition bouton */
+/* GO ON */
 
 setTimeout(()=>{
 btn.classList.add("visible")
