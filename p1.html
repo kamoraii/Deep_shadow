@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #000;
+  font-family: 'Marcellus', serif;
+  overflow: hidden;
+  height: 100vh;
+  color: #ffe9b8;
+}
+/* Image plein écran */
+.image-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+/* Navigation en haut */
+.nav {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  pointer-events: none;
+  z-index: 10;
+}
+.nav > * {
+  pointer-events: auto;
+}
+/* Zone gauche vide pour équilibre (pas de back sur page 1) */
+.left-space {
+  width: 60px; /* même largeur que le bouton next pour équilibre */
+}
+/* Numéros de page centrés */
+.page-numbers {
+  color: rgba(255, 233, 184, 0.3);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.page-numbers span {
+  cursor: pointer;
+  transition: color 0.3s, text-shadow 0.3s;
+  padding: 0 6px;
+}
+.page-numbers span:hover {
+  color: #ffe9b8;
+  text-shadow: 0 0 8px rgba(255, 233, 184, 0.5);
+}
+/* Séparateur */
+.page-numbers span:not(:last-child)::after {
+  content: "·";
+  margin-left: 8px;
+  color: rgba(255, 233, 184, 0.2);
+  pointer-events: none;
+}
+/* Bouton next */
+.next-btn {
+  color: rgba(255, 233, 184, 0.4);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: color 0.3s, text-shadow 0.3s;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 5px 0;
+  text-transform: lowercase;
+}
+.next-btn:hover {
+  color: #ffe9b8;
+  text-shadow: 0 0 8px rgba(255, 233, 184, 0.5);
+}
+</style>
+</head>
+<body>
+<div class="image-container">
+  <img src="p1_photo1.jpg" alt="photo page 1">
+</div>
+
+<div class="nav">
+  <div class="left-space"></div> <!-- pour équilibrer avec next -->
+  <div class="page-numbers">
+    <span onclick="window.location.href='p1.html'">1</span>
+    <span onclick="window.location.href='p2.html'">2</span>
+    <span onclick="window.location.href='p3.html'">3</span>
+    <span onclick="window.location.href='p4.html'">4</span>
+  </div>
+  <div class="next-btn" onclick="window.location.href='p2.html'">next</div>
+</div>
+</body>
+</html>
