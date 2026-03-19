@@ -130,104 +130,55 @@ top:-700%;
 transform:translateX(-50%) rotateX(28deg) scaleY(0.85);
 }
 }
+/* ---- BLOC MODIFIÉ 1 : texte principal ---- */
 .crawl-wrapper p{
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
 margin-bottom:1.2em;
 color:#1E90FF;
-text-shadow: 
-  0 0 5px #1E90FF,
-  0 0 10px #1E90FF,
-  2px 2px 2px rgba(0,0,0,0.8),
-  -1px -1px 0 #00BFFF,
-  1px 1px 0 #4169E1;
-animation: electricGlow 1.5s infinite alternate, electricSpark 0.3s infinite;
+text-shadow:
+0 0 8px #1E90FF,
+0 0 18px #1E90FF,
+0 0 35px rgba(0,191,255,0.8);
+animation:arcFlicker 2.5s infinite;
 }
-/* Effet d'éclairs irréguliers sur le texte principal */
-@keyframes electricGlow {
-  0% { text-shadow: 0 0 5px #1E90FF, 0 0 10px #1E90FF, 2px 2px 2px #000, -1px -1px 0 #00BFFF, 1px 1px 0 #4169E1; }
-  25% { text-shadow: 0 0 8px #1E90FF, 0 0 15px #1E90FF, 3px -2px 2px #000, -2px 2px 0 #00BFFF, 2px -1px 0 #4169E1; }
-  50% { text-shadow: 0 0 3px #1E90FF, 0 0 20px #1E90FF, -2px 3px 2px #000, 3px -1px 0 #00BFFF, -2px 2px 0 #4169E1; }
-  75% { text-shadow: 0 0 10px #1E90FF, 0 0 5px #1E90FF, 1px -3px 2px #000, -3px 2px 0 #00BFFF, 3px 1px 0 #4169E1; }
-  100% { text-shadow: 0 0 6px #1E90FF, 0 0 12px #1E90FF, -1px 1px 2px #000, 2px -2px 0 #00BFFF, -1px -2px 0 #4169E1; }
+
+@keyframes arcFlicker{
+0%,100%{opacity:1;}
+10%{opacity:0.7;}
+20%{opacity:1;}
+30%{opacity:0.5;}
+40%{opacity:1;}
+50%{opacity:0.8;}
+60%{opacity:1;}
+70%{opacity:0.6;}
+80%{opacity:1;}
+90%{opacity:0.9;}
 }
-@keyframes electricSpark {
-  0% { opacity: 1; }
-  20% { opacity: 0.9; }
-  40% { opacity: 1; }
-  60% { opacity: 0.95; }
-  80% { opacity: 1; }
-  100% { opacity: 0.9; }
-}
-/* Phrase finale avec effet électrique renforcé */
+/* ---- FIN BLOC MODIFIÉ 1 ---- */
+
+/* ---- BLOC MODIFIÉ 2 : phrase finale ---- */
 .crawl-wrapper p.final{
 font-size:clamp(2.5rem,6vw,4rem);
 letter-spacing:0.14em;
 color:#1E90FF;
-text-shadow: 0 0 20px #1E90FF, 0 0 40px #1E90FF, 0 0 80px #1E90FF;
-animation: finalGlow 2s infinite alternate, finalSpark 0.2s infinite;
-position: relative;
+text-shadow:
+0 0 20px #1E90FF,
+0 0 40px #1E90FF,
+0 0 80px #00BFFF;
+animation:neonDie 0.3s infinite;
 }
-/* Éclairs autour du texte final via pseudo-éléments */
-.crawl-wrapper p.final::before,
-.crawl-wrapper p.final::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: radial-gradient(circle at 30% 50%, rgba(30,144,255,0.3) 0%, transparent 70%);
-  mix-blend-mode: screen;
-  animation: lightning 0.5s infinite;
+
+@keyframes neonDie{
+0%{opacity:1;}
+20%{opacity:0.3;}
+40%{opacity:1;}
+60%{opacity:0.2;}
+80%{opacity:1;}
+100%{opacity:0.4;}
 }
-.crawl-wrapper p.final::after {
-  background: radial-gradient(circle at 70% 30%, rgba(30,144,255,0.4) 0%, transparent 80%);
-  animation: lightning 0.7s infinite reverse;
-}
-@keyframes finalGlow {
-  0% { text-shadow: 0 0 20px #1E90FF, 0 0 40px #1E90FF, 0 0 60px #1E90FF; }
-  100% { text-shadow: 0 0 30px #1E90FF, 0 0 60px #1E90FF, 0 0 100px #1E90FF; }
-}
-@keyframes finalSpark {
-  0% { opacity: 1; }
-  10% { opacity: 0.8; }
-  20% { opacity: 1; }
-  30% { opacity: 0.9; }
-  40% { opacity: 1; }
-  50% { opacity: 0.7; }
-  60% { opacity: 1; }
-  70% { opacity: 0.9; }
-  80% { opacity: 1; }
-  90% { opacity: 0.8; }
-  100% { opacity: 1; }
-}
-@keyframes lightning {
-  0% { opacity: 0.2; transform: scale(1); }
-  20% { opacity: 0.8; transform: scale(1.05); }
-  40% { opacity: 0.3; transform: scale(1); }
-  60% { opacity: 0.9; transform: scale(1.1); }
-  80% { opacity: 0.2; transform: scale(1); }
-  100% { opacity: 0.4; transform: scale(1.02); }
-}
-/* Classe pour l'extinction à 48s */
-.crawl-wrapper p.final.shutdown {
-  animation: shutdownEffect 2s forwards;
-}
-@keyframes shutdownEffect {
-  0% { opacity: 1; text-shadow: 0 0 30px #1E90FF, 0 0 60px #1E90FF; }
-  10% { opacity: 0.9; text-shadow: 0 0 20px #1E90FF; }
-  20% { opacity: 0.8; text-shadow: 0 0 10px #1E90FF; }
-  30% { opacity: 0.7; text-shadow: 0 0 5px #1E90FF; }
-  40% { opacity: 0.6; text-shadow: 0 0 2px #1E90FF; }
-  50% { opacity: 0.5; text-shadow: none; }
-  60% { opacity: 0.4; }
-  70% { opacity: 0.3; }
-  80% { opacity: 0.2; }
-  90% { opacity: 0.1; }
-  100% { opacity: 0; }
-}
+/* ---- FIN BLOC MODIFIÉ 2 ---- */
+
 .btn-continue{
 position:fixed;
 top:45%;
@@ -251,7 +202,6 @@ pointer-events: none;
 opacity:1;
 pointer-events: auto;
 }
-/* Étoile filante */
 .shooting-star {
   position: fixed;
   width: 2px;
@@ -284,7 +234,6 @@ pointer-events: auto;
     box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
   }
 }
-/* Lien de test discret */
 .skip-link {
   position: fixed;
   bottom: 15px;
@@ -348,14 +297,14 @@ const audioElement = document.getElementById("introAudio")
 const crawl = document.getElementById("crawl")
 const btn = document.getElementById("btnContinue")
 const shootingStar = document.getElementById("shootingStar")
-const finalText = document.querySelector('.crawl-wrapper p.final') // la phrase finale
+const finalText = document.querySelector('.crawl-wrapper p.final')
 
 const crawlDuration = 110
 const fadeStart = 36
 const fadeDuration = 15
-const buttonAppearTime = 45
+const buttonAppearTime = 46 // modifié de 45 à 46
 const shootingStarTime = 30
-const shutdownTime = 48 // seconde à laquelle la phrase finale commence à s'éteindre
+const shutdownTime = 48
 
 let started = false
 let fadeStarted = false
@@ -403,7 +352,6 @@ function startExperience() {
     }, 2000)
   }, shootingStarTime * 1000)
 
-  // Extinction de la phrase finale à 48 secondes
   setTimeout(() => {
     if (finalText) {
       finalText.classList.add('shutdown')
