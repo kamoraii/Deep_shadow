@@ -68,20 +68,24 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-color:#ffe9b8;
 font-size:1.6rem;
 letter-spacing:0.35em;
 border:none;
 background:transparent;
 cursor:pointer;
-text-shadow:0 0 20px rgba(255,230,180,0.6);
-animation:pulse 3s infinite;
+color: #1E90FF;
+text-shadow: 0 0 15px #1E90FF, 0 0 30px rgba(30,144,255,0.5);
+animation: pulse 3s infinite, blueGlow 5s infinite alternate;
 z-index:20;
 }
 @keyframes pulse{
 0%{opacity:0.4;}
 50%{opacity:1;}
 100%{opacity:0.4;}
+}
+@keyframes blueGlow {
+  0% { text-shadow: 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.3); }
+  100% { text-shadow: 0 0 20px #1E90FF, 0 0 40px rgba(30,144,255,0.7); }
 }
 .scene{
 position:fixed;
@@ -137,20 +141,16 @@ transform:translateX(-50%) rotateX(28deg) scaleY(0.85);
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
 margin-bottom:1.2em;
-color:#ffe9b8;
-text-shadow:
-0 0 40px rgba(255,220,160,0.7),
-0 0 80px rgba(0,0,0,0.9),
-0 10px 20px #000;
+color: #1E90FF;
+text-shadow: 0 0 15px #1E90FF, 0 0 40px rgba(30,144,255,0.5), 0 10px 20px #000;
+animation: blueGlow 5s infinite alternate;
 }
 .crawl-wrapper p.final{
 font-size:clamp(2.5rem,6vw,4rem);
 letter-spacing:0.14em;
-color:#ffe9b8;
-text-shadow:
-0 0 100px rgba(255,230,170,1),
-0 0 180px rgba(255,210,130,0.8),
-0 0 280px rgba(255,190,80,0.6);
+color: #1E90FF;
+text-shadow: 0 0 30px #1E90FF, 0 0 60px rgba(30,144,255,0.7), 0 0 80px #1E90FF;
+animation: blueGlow 4s infinite alternate;
 }
 .btn-continue{
 position:fixed;
@@ -160,28 +160,20 @@ transform:translate(-50%,-50%);
 font-family:'Shadows Into Light', cursive;
 background:transparent;
 border:none;
-color:#ffe9b8;
+color: #1E90FF;
 font-size:1.8rem;
 letter-spacing:0.3em;
 cursor:pointer;
-text-shadow:
-0 0 20px rgba(255,230,170,1),
-0 0 40px rgba(255,200,120,0.9),
-0 0 80px rgba(255,190,80,0.7);
+text-shadow: 0 0 15px #1E90FF, 0 0 30px rgba(30,144,255,0.5);
 opacity:0;
 transition:opacity 4s;
-animation:shine 4s infinite;
+animation: blueGlow 5s infinite alternate;
 z-index:10;
 pointer-events: none;
 }
 .btn-continue.visible{
 opacity:1;
 pointer-events: auto;
-}
-@keyframes shine{
-0%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
-50%{text-shadow:0 0 40px rgba(255,220,150,1),0 0 80px rgba(255,200,120,0.8);}
-100%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
 }
 /* Étoile filante */
 .shooting-star {
@@ -216,24 +208,26 @@ pointer-events: auto;
     box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
   }
 }
-/* Lien de test discret (un peu plus visible) */
+/* Lien de test discret (bleu électrique) */
 .skip-link {
   position: fixed;
   bottom: 15px;
   right: 15px;
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.4); /* modifié de 0.15 à 0.4 */
+  color: #1E90FF;
+  text-shadow: 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5);
   text-decoration: none;
   z-index: 100;
   transition: color 0.3s, text-shadow 0.3s;
   line-height: 1;
   padding: 5px;
   font-family: sans-serif;
+  animation: blueGlow 5s infinite alternate;
 }
 .skip-link:hover,
 .skip-link:active {
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 0 0 5px white;
+  color: #1E90FF;
+  text-shadow: 0 0 20px #1E90FF, 0 0 40px rgba(30,144,255,0.8);
 }
 audio{
 display:none;
