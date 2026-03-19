@@ -8,7 +8,8 @@
 <link rel="apple-touch-icon" href="icone.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+<!-- Polices : Orbitron pour le texte électrique, Shadows Into Light pour le bouton -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -16,7 +17,7 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
-font-family:'Marcellus',serif;
+font-family:'Orbitron', sans-serif; /* Police anguleuse, électrique */
 }
 .background{
 position:fixed;
@@ -73,9 +74,7 @@ letter-spacing:0.35em;
 border:none;
 background:transparent;
 cursor:pointer;
-color: #1E90FF;
-text-shadow: 0 0 15px #1E90FF, 0 0 30px rgba(30,144,255,0.5);
-animation: pulse 3s infinite, blueGlow 5s infinite alternate;
+animation: pulse 3s infinite, electricColor 0.6s infinite alternate, electricGlow 0.4s infinite alternate;
 z-index:20;
 }
 @keyframes pulse{
@@ -83,9 +82,30 @@ z-index:20;
 50%{opacity:1;}
 100%{opacity:0.4;}
 }
-@keyframes blueGlow {
-  0% { text-shadow: 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.3); }
-  100% { text-shadow: 0 0 20px #1E90FF, 0 0 40px rgba(30,144,255,0.7); }
+/* Animation électrique instable pour tout le texte (bleu) */
+@keyframes electricColor {
+  0% { color: #1E90FF; }
+  20% { color: #00BFFF; }
+  40% { color: #1E90FF; }
+  60% { color: #4169E1; }
+  80% { color: #1E90FF; }
+  100% { color: #00BFFF; }
+}
+@keyframes electricGlow {
+  0% { text-shadow: 0 0 2px #1E90FF, 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5); }
+  25% { text-shadow: 0 0 5px #00BFFF, 0 0 15px #00BFFF, 0 0 30px rgba(0,191,255,0.7); }
+  50% { text-shadow: 0 0 0px #1E90FF, 0 0 8px #1E90FF, 0 0 15px rgba(30,144,255,0.3); }
+  75% { text-shadow: 0 0 8px #4169E1, 0 0 20px #4169E1, 0 0 40px rgba(65,105,225,0.8); }
+  100% { text-shadow: 0 0 2px #1E90FF, 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5); }
+}
+/* Animation spéciale pour la dernière phrase (embrasement rouge/orange) */
+@keyframes finalElectric {
+  0% { color: #1E90FF; text-shadow: 0 0 10px #1E90FF, 0 0 30px rgba(30,144,255,0.7); }
+  20% { color: #FF4500; text-shadow: 0 0 15px #FF4500, 0 0 40px rgba(255,69,0,0.8); }
+  40% { color: #FF8C00; text-shadow: 0 0 20px #FF8C00, 0 0 50px rgba(255,140,0,0.9); }
+  60% { color: #FF1493; text-shadow: 0 0 15px #FF1493, 0 0 35px rgba(255,20,147,0.7); }
+  80% { color: #1E90FF; text-shadow: 0 0 10px #1E90FF, 0 0 30px rgba(30,144,255,0.7); }
+  100% { color: #FF4500; text-shadow: 0 0 25px #FF4500, 0 0 60px rgba(255,69,0,1); }
 }
 .scene{
 position:fixed;
@@ -141,35 +161,31 @@ transform:translateX(-50%) rotateX(28deg) scaleY(0.85);
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
 margin-bottom:1.2em;
-color: #1E90FF;
-text-shadow: 0 0 15px #1E90FF, 0 0 40px rgba(30,144,255,0.5), 0 10px 20px #000;
-animation: blueGlow 5s infinite alternate;
+animation: electricColor 0.8s infinite alternate, electricGlow 0.5s infinite alternate;
+text-shadow: 0 10px 20px #000; /* ombre noire pour le contraste */
 }
 .crawl-wrapper p.final{
 font-size:clamp(2.5rem,6vw,4rem);
 letter-spacing:0.14em;
-color: #1E90FF;
-text-shadow: 0 0 30px #1E90FF, 0 0 60px rgba(30,144,255,0.7), 0 0 80px #1E90FF;
-animation: blueGlow 4s infinite alternate;
+animation: finalElectric 3s infinite alternate; /* plus lent, dramatique */
+font-weight: 900; /* plus gras */
 }
 .btn-continue{
 position:fixed;
 top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-family:'Shadows Into Light', cursive;
+font-family:'Shadows Into Light', cursive; /* on garde cette police pour le bouton */
 background:transparent;
 border:none;
-color: #1E90FF;
 font-size:1.8rem;
 letter-spacing:0.3em;
 cursor:pointer;
-text-shadow: 0 0 15px #1E90FF, 0 0 30px rgba(30,144,255,0.5);
 opacity:0;
 transition:opacity 4s;
-animation: blueGlow 5s infinite alternate;
 z-index:10;
 pointer-events: none;
+animation: electricColor 0.7s infinite alternate, electricGlow 0.4s infinite alternate;
 }
 .btn-continue.visible{
 opacity:1;
@@ -208,26 +224,18 @@ pointer-events: auto;
     box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
   }
 }
-/* Lien de test discret (bleu électrique) */
+/* Lien de test discret (effet électrique aussi) */
 .skip-link {
   position: fixed;
   bottom: 15px;
   right: 15px;
   font-size: 20px;
-  color: #1E90FF;
-  text-shadow: 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5);
   text-decoration: none;
   z-index: 100;
-  transition: color 0.3s, text-shadow 0.3s;
   line-height: 1;
   padding: 5px;
   font-family: sans-serif;
-  animation: blueGlow 5s infinite alternate;
-}
-.skip-link:hover,
-.skip-link:active {
-  color: #1E90FF;
-  text-shadow: 0 0 20px #1E90FF, 0 0 40px rgba(30,144,255,0.8);
+  animation: electricColor 0.6s infinite alternate, electricGlow 0.3s infinite alternate;
 }
 audio{
 display:none;
@@ -266,7 +274,7 @@ display:none;
 <p>Et puis la rumeur commença à gronder</p>
 <p>jusqu'à ce que l'artiste franchisse</p>
 <p>le cercle incandescent.</p>
-<p class="final">Et le monde s'embrase.</p>
+<p class="final">Et le monde s'embrase.</p> <!-- Dernière phrase avec animation spéciale -->
 </div>
 </div>
 <button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">
