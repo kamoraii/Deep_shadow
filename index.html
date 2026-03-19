@@ -8,7 +8,6 @@
 <link rel="apple-touch-icon" href="icone.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Polices : Orbitron pour le texte électrique, Shadows Into Light pour le bouton -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 <style>
@@ -17,7 +16,7 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
-font-family:'Orbitron', sans-serif; /* Police anguleuse, électrique */
+font-family:'Orbitron', sans-serif;
 }
 .background{
 position:fixed;
@@ -28,7 +27,6 @@ background-position:center;
 z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
-/* Calque avec ciel éclairci */
 .sky-bright {
   position: fixed;
   top: 0;
@@ -43,12 +41,10 @@ filter:grayscale(30%) contrast(1.1) brightness(0.9);
   pointer-events: none;
   z-index: 1;
 }
-
 @keyframes brightenSky {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
-
 .overlay{
 position:fixed;
 inset:0;
@@ -74,38 +70,15 @@ letter-spacing:0.35em;
 border:none;
 background:transparent;
 cursor:pointer;
-animation: pulse 3s infinite, electricColor 0.6s infinite alternate, electricGlow 0.4s infinite alternate;
+color:#1E90FF;
+text-shadow: 0 0 10px #1E90FF, 0 0 20px #1E90FF, 0 0 40px #1E90FF;
+animation: pulse 3s infinite, electricFlicker 0.8s infinite alternate;
 z-index:20;
 }
 @keyframes pulse{
 0%{opacity:0.4;}
 50%{opacity:1;}
 100%{opacity:0.4;}
-}
-/* Animation électrique instable pour tout le texte (bleu) */
-@keyframes electricColor {
-  0% { color: #1E90FF; }
-  20% { color: #00BFFF; }
-  40% { color: #1E90FF; }
-  60% { color: #4169E1; }
-  80% { color: #1E90FF; }
-  100% { color: #00BFFF; }
-}
-@keyframes electricGlow {
-  0% { text-shadow: 0 0 2px #1E90FF, 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5); }
-  25% { text-shadow: 0 0 5px #00BFFF, 0 0 15px #00BFFF, 0 0 30px rgba(0,191,255,0.7); }
-  50% { text-shadow: 0 0 0px #1E90FF, 0 0 8px #1E90FF, 0 0 15px rgba(30,144,255,0.3); }
-  75% { text-shadow: 0 0 8px #4169E1, 0 0 20px #4169E1, 0 0 40px rgba(65,105,225,0.8); }
-  100% { text-shadow: 0 0 2px #1E90FF, 0 0 10px #1E90FF, 0 0 20px rgba(30,144,255,0.5); }
-}
-/* Animation spéciale pour la dernière phrase (embrasement rouge/orange) */
-@keyframes finalElectric {
-  0% { color: #1E90FF; text-shadow: 0 0 10px #1E90FF, 0 0 30px rgba(30,144,255,0.7); }
-  20% { color: #FF4500; text-shadow: 0 0 15px #FF4500, 0 0 40px rgba(255,69,0,0.8); }
-  40% { color: #FF8C00; text-shadow: 0 0 20px #FF8C00, 0 0 50px rgba(255,140,0,0.9); }
-  60% { color: #FF1493; text-shadow: 0 0 15px #FF1493, 0 0 35px rgba(255,20,147,0.7); }
-  80% { color: #1E90FF; text-shadow: 0 0 10px #1E90FF, 0 0 30px rgba(30,144,255,0.7); }
-  100% { color: #FF4500; text-shadow: 0 0 25px #FF4500, 0 0 60px rgba(255,69,0,1); }
 }
 .scene{
 position:fixed;
@@ -161,31 +134,118 @@ transform:translateX(-50%) rotateX(28deg) scaleY(0.85);
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
 margin-bottom:1.2em;
-animation: electricColor 0.4s infinite alternate, electricGlow 0.5s infinite alternate;
-text-shadow: 0 10px 20px #000; /* ombre noire pour le contraste */
+color:#1E90FF;
+text-shadow: 
+  0 0 5px #1E90FF,
+  0 0 10px #1E90FF,
+  2px 2px 2px rgba(0,0,0,0.8),
+  -1px -1px 0 #00BFFF,
+  1px 1px 0 #4169E1;
+animation: electricGlow 1.5s infinite alternate, electricSpark 0.3s infinite;
 }
+/* Effet d'éclairs irréguliers sur le texte principal */
+@keyframes electricGlow {
+  0% { text-shadow: 0 0 5px #1E90FF, 0 0 10px #1E90FF, 2px 2px 2px #000, -1px -1px 0 #00BFFF, 1px 1px 0 #4169E1; }
+  25% { text-shadow: 0 0 8px #1E90FF, 0 0 15px #1E90FF, 3px -2px 2px #000, -2px 2px 0 #00BFFF, 2px -1px 0 #4169E1; }
+  50% { text-shadow: 0 0 3px #1E90FF, 0 0 20px #1E90FF, -2px 3px 2px #000, 3px -1px 0 #00BFFF, -2px 2px 0 #4169E1; }
+  75% { text-shadow: 0 0 10px #1E90FF, 0 0 5px #1E90FF, 1px -3px 2px #000, -3px 2px 0 #00BFFF, 3px 1px 0 #4169E1; }
+  100% { text-shadow: 0 0 6px #1E90FF, 0 0 12px #1E90FF, -1px 1px 2px #000, 2px -2px 0 #00BFFF, -1px -2px 0 #4169E1; }
+}
+@keyframes electricSpark {
+  0% { opacity: 1; }
+  20% { opacity: 0.9; }
+  40% { opacity: 1; }
+  60% { opacity: 0.95; }
+  80% { opacity: 1; }
+  100% { opacity: 0.9; }
+}
+/* Phrase finale avec effet électrique renforcé */
 .crawl-wrapper p.final{
 font-size:clamp(2.5rem,6vw,4rem);
 letter-spacing:0.14em;
-animation: finalElectric 3s infinite alternate; /* plus lent, dramatique */
-font-weight: 900; /* plus gras */
+color:#1E90FF;
+text-shadow: 0 0 20px #1E90FF, 0 0 40px #1E90FF, 0 0 80px #1E90FF;
+animation: finalGlow 2s infinite alternate, finalSpark 0.2s infinite;
+position: relative;
+}
+/* Éclairs autour du texte final via pseudo-éléments */
+.crawl-wrapper p.final::before,
+.crawl-wrapper p.final::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at 30% 50%, rgba(30,144,255,0.3) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: lightning 0.5s infinite;
+}
+.crawl-wrapper p.final::after {
+  background: radial-gradient(circle at 70% 30%, rgba(30,144,255,0.4) 0%, transparent 80%);
+  animation: lightning 0.7s infinite reverse;
+}
+@keyframes finalGlow {
+  0% { text-shadow: 0 0 20px #1E90FF, 0 0 40px #1E90FF, 0 0 60px #1E90FF; }
+  100% { text-shadow: 0 0 30px #1E90FF, 0 0 60px #1E90FF, 0 0 100px #1E90FF; }
+}
+@keyframes finalSpark {
+  0% { opacity: 1; }
+  10% { opacity: 0.8; }
+  20% { opacity: 1; }
+  30% { opacity: 0.9; }
+  40% { opacity: 1; }
+  50% { opacity: 0.7; }
+  60% { opacity: 1; }
+  70% { opacity: 0.9; }
+  80% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+@keyframes lightning {
+  0% { opacity: 0.2; transform: scale(1); }
+  20% { opacity: 0.8; transform: scale(1.05); }
+  40% { opacity: 0.3; transform: scale(1); }
+  60% { opacity: 0.9; transform: scale(1.1); }
+  80% { opacity: 0.2; transform: scale(1); }
+  100% { opacity: 0.4; transform: scale(1.02); }
+}
+/* Classe pour l'extinction à 48s */
+.crawl-wrapper p.final.shutdown {
+  animation: shutdownEffect 2s forwards;
+}
+@keyframes shutdownEffect {
+  0% { opacity: 1; text-shadow: 0 0 30px #1E90FF, 0 0 60px #1E90FF; }
+  10% { opacity: 0.9; text-shadow: 0 0 20px #1E90FF; }
+  20% { opacity: 0.8; text-shadow: 0 0 10px #1E90FF; }
+  30% { opacity: 0.7; text-shadow: 0 0 5px #1E90FF; }
+  40% { opacity: 0.6; text-shadow: 0 0 2px #1E90FF; }
+  50% { opacity: 0.5; text-shadow: none; }
+  60% { opacity: 0.4; }
+  70% { opacity: 0.3; }
+  80% { opacity: 0.2; }
+  90% { opacity: 0.1; }
+  100% { opacity: 0; }
 }
 .btn-continue{
 position:fixed;
 top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-family:'Shadows Into Light', cursive; /* on garde cette police pour le bouton */
+font-family:'Shadows Into Light', cursive;
 background:transparent;
 border:none;
+color:#1E90FF;
 font-size:1.8rem;
 letter-spacing:0.3em;
 cursor:pointer;
+text-shadow: 0 0 10px #1E90FF, 0 0 20px #1E90FF;
 opacity:0;
 transition:opacity 4s;
+animation: electricFlicker 1s infinite alternate;
 z-index:10;
 pointer-events: none;
-animation: electricColor 0.7s infinite alternate, electricGlow 0.4s infinite alternate;
 }
 .btn-continue.visible{
 opacity:1;
@@ -224,33 +284,34 @@ pointer-events: auto;
     box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
   }
 }
-/* Lien de test discret (effet électrique aussi) */
+/* Lien de test discret */
 .skip-link {
   position: fixed;
   bottom: 15px;
   right: 15px;
   font-size: 20px;
+  color: #1E90FF;
   text-decoration: none;
   z-index: 100;
   line-height: 1;
   padding: 5px;
   font-family: sans-serif;
-  animation: electricColor 0.6s infinite alternate, electricGlow 0.3s infinite alternate;
+  animation: electricFlicker 1s infinite alternate;
 }
 audio{
 display:none;
 }
+@keyframes electricFlicker {
+  0% { opacity: 0.8; text-shadow: 0 0 5px #1E90FF; }
+  100% { opacity: 1; text-shadow: 0 0 15px #1E90FF; }
+}
 </style>
 </head>
 <body>
-<!-- Fond original -->
 <div class="background"></div>
-<!-- Calque avec ciel éclairci -->
 <div class="sky-bright"></div>
-
 <div class="overlay"></div>
 <div class="grain"></div>
-<!-- Étoile filante -->
 <div class="shooting-star" id="shootingStar"></div>
 
 <button class="invitation" id="invitation">my world</button>
@@ -274,14 +335,10 @@ display:none;
 <p>Et puis la rumeur commença à gronder</p>
 <p>jusqu'à ce que l'artiste franchisse</p>
 <p>le cercle incandescent.</p>
-<p class="final">Et le monde s'embrase.</p> <!-- Dernière phrase avec animation spéciale -->
+<p class="final">Et le monde s'embrase.</p>
 </div>
 </div>
-<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">
-go on?
-</button>
-
-<!-- Lien de test discret -->
+<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">go on?</button>
 <a href="p1.html" class="skip-link" title="Passer le générique (pour test)">⤚</a>
 
 <script>
@@ -291,12 +348,14 @@ const audioElement = document.getElementById("introAudio")
 const crawl = document.getElementById("crawl")
 const btn = document.getElementById("btnContinue")
 const shootingStar = document.getElementById("shootingStar")
+const finalText = document.querySelector('.crawl-wrapper p.final') // la phrase finale
 
 const crawlDuration = 110
 const fadeStart = 36
 const fadeDuration = 15
 const buttonAppearTime = 45
 const shootingStarTime = 30
+const shutdownTime = 48 // seconde à laquelle la phrase finale commence à s'éteindre
 
 let started = false
 let fadeStarted = false
@@ -343,6 +402,13 @@ function startExperience() {
       shootingStar.classList.remove('active')
     }, 2000)
   }, shootingStarTime * 1000)
+
+  // Extinction de la phrase finale à 48 secondes
+  setTimeout(() => {
+    if (finalText) {
+      finalText.classList.add('shutdown')
+    }
+  }, shutdownTime * 1000)
 }
 
 function checkTime(startTime) {
