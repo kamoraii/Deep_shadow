@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +9,7 @@
 <link rel="apple-touch-icon" href="icone.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -16,7 +17,7 @@ body{
 height:100vh;
 overflow:hidden;
 background:#000;
-font-family:'Orbitron', sans-serif;
+font-family:'Marcellus',serif;
 }
 .background{
 position:fixed;
@@ -27,6 +28,7 @@ background-position:center;
 z-index:0;
 filter:grayscale(30%) contrast(1.1) brightness(0.9);
 }
+/* Calque avec ciel éclairci */
 .sky-bright {
   position: fixed;
   top: 0;
@@ -41,10 +43,12 @@ filter:grayscale(30%) contrast(1.1) brightness(0.9);
   pointer-events: none;
   z-index: 1;
 }
+
 @keyframes brightenSky {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+0% { opacity: 0; }
+100% { opacity: 1; }
 }
+
 .overlay{
 position:fixed;
 inset:0;
@@ -57,7 +61,7 @@ inset:0;
 z-index:3;
 pointer-events:none;
 opacity:0.05;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.8’ numOctaves=‘3’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’/%3E%3C/svg%3E”);
 background-size:150px;
 }
 .invitation{
@@ -65,14 +69,14 @@ position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
+color:#ffe9b8;
 font-size:1.6rem;
 letter-spacing:0.35em;
 border:none;
 background:transparent;
 cursor:pointer;
-color:#1E90FF;
-text-shadow: 0 0 10px #1E90FF, 0 0 20px #1E90FF, 0 0 40px #1E90FF;
-animation: pulse 3s infinite, electricFlicker 0.8s infinite alternate;
+text-shadow:0 0 20px rgba(255,230,180,0.6);
+animation:pulse 3s infinite;
 z-index:20;
 }
 @keyframes pulse{
@@ -130,71 +134,45 @@ top:-700%;
 transform:translateX(-50%) rotateX(28deg) scaleY(0.85);
 }
 }
-/* ---- BLOC MODIFIÉ 1 : texte principal ---- */
 .crawl-wrapper p{
 font-size:clamp(1.8rem,4vw,3rem);
 letter-spacing:0.05em;
 margin-bottom:1.2em;
-color:#1E90FF;
+color:#ffe9b8;
 text-shadow:
-0 0 8px #1E90FF,
-0 0 18px #1E90FF,
-0 0 35px rgba(0,191,255,0.8);
-animation:arcFlicker 2.5s infinite;
+0 0 40px rgba(255,220,160,0.7),
+0 0 80px rgba(0,0,0,0.9),
+0 10px 20px #000;
 }
-
-@keyframes arcFlicker{
-0%,100%{opacity:1;}
-10%{opacity:0.7;}
-20%{opacity:1;}
-30%{opacity:0.5;}
-40%{opacity:1;}
-50%{opacity:0.8;}
-60%{opacity:1;}
-70%{opacity:0.6;}
-80%{opacity:1;}
-90%{opacity:0.9;}
-}
-/* ---- FIN BLOC MODIFIÉ 1 ---- */
-
-/* ---- BLOC MODIFIÉ 2 : phrase finale ---- */
 .crawl-wrapper p.final{
 font-size:clamp(2.5rem,6vw,4rem);
 letter-spacing:0.14em;
-color:#1E90FF;
+color:#ffe9b8;
 text-shadow:
-0 0 20px #1E90FF,
-0 0 40px #1E90FF,
-0 0 80px #00BFFF;
-animation:neonDie 0.3s infinite;
+0 0 100px rgba(255,230,170,1),
+0 0 180px rgba(255,210,130,0.8),
+0 0 280px rgba(255,190,80,0.6);
 }
-
-@keyframes neonDie{
-0%{opacity:1;}
-20%{opacity:0.3;}
-40%{opacity:1;}
-60%{opacity:0.2;}
-80%{opacity:1;}
-100%{opacity:0.4;}
-}
-/* ---- FIN BLOC MODIFIÉ 2 ---- */
 
 .btn-continue{
 position:fixed;
 top:45%;
 left:50%;
 transform:translate(-50%,-50%);
-font-family:'Shadows Into Light', cursive;
+font-family:‘Shadows Into Light’, cursive;
 background:transparent;
 border:none;
-color:#1E90FF;
+color:#ffe9b8;
 font-size:1.8rem;
 letter-spacing:0.3em;
 cursor:pointer;
-text-shadow: 0 0 10px #1E90FF, 0 0 20px #1E90FF;
+text-shadow:
+0 0 20px rgba(255,230,170,1),
+0 0 40px rgba(255,200,120,0.9),
+0 0 80px rgba(255,190,80,0.7);
 opacity:0;
 transition:opacity 4s;
-animation: electricFlicker 1s infinite alternate;
+animation:shine 4s infinite;
 z-index:10;
 pointer-events: none;
 }
@@ -202,69 +180,83 @@ pointer-events: none;
 opacity:1;
 pointer-events: auto;
 }
+@keyframes shine{
+0%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
+50%{text-shadow:0 0 40px rgba(255,220,150,1),0 0 80px rgba(255,200,120,0.8);}
+100%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
+}
+/* Étoile filante */
 .shooting-star {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 8px 2px rgba(255,255,255,0.6), 15px 5px 12px -5px rgba(255,255,255,0.3);
-  z-index: 15;
-  pointer-events: none;
-  opacity: 0;
+position: fixed;
+width: 2px;
+height: 2px;
+background: white;
+border-radius: 50%;
+box-shadow: 0 0 8px 2px rgba(255,255,255,0.6), 15px 5px 12px -5px rgba(255,255,255,0.3);
+z-index: 15;
+pointer-events: none;
+opacity: 0;
 }
 .shooting-star.active {
-  opacity: 1;
-  animation: shoot 2s linear forwards;
+opacity: 1;
+animation: shoot 2s linear forwards;
 }
 @keyframes shoot {
-  0% {
-    left: 50%;
-    top: 5%;
-    opacity: 1;
-    box-shadow: 0 0 8px 2px rgba(255,255,255,0.6), 0 0 0 0 transparent;
-  }
-  30% {
-    box-shadow: 0 0 12px 3px rgba(255,255,255,0.7), 25px 8px 15px -5px rgba(255,255,255,0.4);
-  }
-  100% {
-    left: 60%;
-    top: 15%;
-    opacity: 0;
-    box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
-  }
+0% {
+left: 50%;
+top: 5%;
+opacity: 1;
+box-shadow: 0 0 8px 2px rgba(255,255,255,0.6), 0 0 0 0 transparent;
 }
+30% {
+box-shadow: 0 0 12px 3px rgba(255,255,255,0.7), 25px 8px 15px -5px rgba(255,255,255,0.4);
+}
+100% {
+left: 60%;
+top: 15%;
+opacity: 0;
+box-shadow: 0 0 5px 1px rgba(255,255,255,0.4), 40px 15px 20px -8px rgba(255,255,255,0.2);
+}
+}
+/* Lien de test discret (un peu plus visible) */
 .skip-link {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  font-size: 20px;
-  color: #1E90FF;
-  text-decoration: none;
-  z-index: 100;
-  line-height: 1;
-  padding: 5px;
-  font-family: sans-serif;
-  animation: electricFlicker 1s infinite alternate;
+position: fixed;
+bottom: 15px;
+right: 15px;
+font-size: 20px;
+color: rgba(255, 255, 255, 0.4);
+text-decoration: none;
+z-index: 100;
+transition: color 0.3s, text-shadow 0.3s;
+line-height: 1;
+padding: 5px;
+font-family: sans-serif;
+}
+.skip-link:hover,
+.skip-link:active {
+color: rgba(255, 255, 255, 0.8);
+text-shadow: 0 0 5px white;
 }
 audio{
 display:none;
 }
-@keyframes electricFlicker {
-  0% { opacity: 0.8; text-shadow: 0 0 5px #1E90FF; }
-  100% { opacity: 1; text-shadow: 0 0 15px #1E90FF; }
-}
 </style>
+
 </head>
 <body>
+<!-- Fond original -->
 <div class="background"></div>
+<!-- Calque avec ciel éclairci -->
 <div class="sky-bright"></div>
+
 <div class="overlay"></div>
 <div class="grain"></div>
+<!-- Étoile filante -->
 <div class="shooting-star" id="shootingStar"></div>
 
 <button class="invitation" id="invitation">my world</button>
 <audio id="introAudio" preload="auto" style="display:none">
+
 <source src="musique_intro.mp3" type="audio/mpeg">
 </audio>
 <div class="scene" id="scene">
@@ -284,10 +276,15 @@ display:none;
 <p>Et puis la rumeur commença à gronder</p>
 <p>jusqu'à ce que l'artiste franchisse</p>
 <p>le cercle incandescent.</p>
-<p class="final">Et le monde s'embrase.</p>
+<p class="final" id="finalPhrase">Et le monde s'embrase.</p>
 </div>
 </div>
-<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">go on?</button>
+<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">
+go on?
+</button>
+
+<!-- Lien de test discret -->
+
 <a href="p1.html" class="skip-link" title="Passer le générique (pour test)">⤚</a>
 
 <script>
@@ -297,24 +294,68 @@ const audioElement = document.getElementById("introAudio")
 const crawl = document.getElementById("crawl")
 const btn = document.getElementById("btnContinue")
 const shootingStar = document.getElementById("shootingStar")
-const finalText = document.querySelector('.crawl-wrapper p.final')
+const finalPhrase = document.getElementById("finalPhrase")
 
 const crawlDuration = 110
 const fadeStart = 36
 const fadeDuration = 15
-const buttonAppearTime = 46 // modifié de 45 à 46
+const buttonAppearTime = 45
 const shootingStarTime = 30
-const shutdownTime = 48
+const finalFixTime = 39500  // ms après démarrage — à ajuster si besoin
 
 let started = false
 let fadeStarted = false
 let audioContext = null
 let gainNode = null
 let source = null
+let experienceStartTime = null
+
+function detachFinalPhrase() {
+  // Calculer la position exacte du crawl-wrapper à cet instant précis
+  // L'animation démarre avec -5s d'offset, donc l'animation est déjà à 5s au démarrage
+  const elapsedSec = (performance.now() - experienceStartTime) / 1000
+  const totalAnimSec = elapsedSec + 5  // +5 pour l'offset -5s
+  const progress = Math.min(totalAnimSec / crawlDuration, 1)
+  // L'animation va de top:100% à top:-700% sur crawlDuration secondes
+  const crawlTopPercent = 100 + progress * (-700 - 100)
+
+  // Créer un conteneur fixe avec le même contexte de perspective que .scene
+  const frozenScene = document.createElement('div')
+  Object.assign(frozenScene.style, {
+    position: 'fixed',
+    inset: '0',
+    perspective: '380px',
+    perspectiveOrigin: '50% 85%',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+    zIndex: '6',
+  })
+
+  // Cloner tout le crawl-wrapper (pour que .final garde exactement sa position dans le layout)
+  const frozenWrapper = crawl.cloneNode(true)
+  frozenWrapper.style.animation = 'none'
+  frozenWrapper.style.top = crawlTopPercent + '%'
+  frozenWrapper.style.transform = 'translateX(-50%) rotateX(25deg) scaleY(0.85)'
+  frozenWrapper.style.transformOrigin = '50% 100%'
+
+  // Rendre invisible tout sauf .final — visibility:hidden conserve l'espace dans le layout
+  Array.from(frozenWrapper.children).forEach(child => {
+    if (!child.classList.contains('final')) {
+      child.style.visibility = 'hidden'
+    }
+  })
+
+  frozenScene.appendChild(frozenWrapper)
+  document.body.appendChild(frozenScene)
+
+  // Masquer l'original dans le crawl qui continue de défiler
+  finalPhrase.style.visibility = 'hidden'
+}
 
 function startExperience() {
   if (started) return
   started = true
+  experienceStartTime = performance.now()
 
   invitation.style.display = "none"
   scene.classList.add("active")
@@ -352,11 +393,8 @@ function startExperience() {
     }, 2000)
   }, shootingStarTime * 1000)
 
-  setTimeout(() => {
-    if (finalText) {
-      finalText.classList.add('shutdown')
-    }
-  }, shutdownTime * 1000)
+  // Détachement de la phrase finale
+  setTimeout(detachFinalPhrase, finalFixTime)
 }
 
 function checkTime(startTime) {
@@ -387,5 +425,6 @@ function checkTime(startTime) {
 invitation.addEventListener("click", startExperience)
 invitation.addEventListener("touchstart", startExperience)
 </script>
+
 </body>
 </html>
