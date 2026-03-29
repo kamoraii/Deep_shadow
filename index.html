@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dans l'ombre — my world</title>
 <link rel="icon" type="image/jpeg" href="icone.jpeg">
-<link rel="apple-touch-icon" href="icone.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
@@ -59,7 +58,6 @@ opacity:0.05;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 background-size:150px;
 }
-/* IMAGE DE CONCERT */
 .concert-bg {
   position: fixed;
   top: 0;
@@ -71,7 +69,7 @@ background-size:150px;
   background-position: center;
   z-index: 4;
   opacity: 0;
-  transition: opacity 4s ease-out;
+  transition: opacity 3s ease-out;
   pointer-events: none;
 }
 .invitation{
@@ -185,22 +183,13 @@ animation:shine 4s infinite;
 z-index:10;
 pointer-events: none;
 }
-.btn-continue.visible{
-opacity:1;
-pointer-events: auto;
-}
-@keyframes shine{
-0%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
-50%{text-shadow:0 0 40px rgba(255,220,150,1),0 0 80px rgba(255,200,120,0.8);}
-100%{text-shadow:0 0 10px rgba(255,230,170,0.5);}
-}
 .shooting-star {
 position: fixed;
 width: 2px;
 height: 2px;
 background: white;
 border-radius: 50%;
-box-shadow: 0 0 8px 2px rgba(255,255,255,0.6), 15px 5px 12px -5px rgba(255,255,255,0.3);
+box-shadow: 0 0 8px 2px rgba(255,255,255,0.6);
 z-index: 15;
 pointer-events: none;
 opacity: 0;
@@ -210,34 +199,20 @@ opacity: 1;
 animation: shoot 2s linear forwards;
 }
 @keyframes shoot {
-0% {
-left: 50%;
-top: 5%;
-opacity: 1;
-}
-100% {
-left: 60%;
-top: 15%;
-opacity: 0;
-}
+0% { left: 50%; top: 5%; opacity: 1; }
+100% { left: 60%; top: 15%; opacity: 0; }
 }
 .skip-link {
 position: fixed;
 bottom: 15px;
 right: 15px;
 font-size: 20px;
-color: rgba(255, 255, 255, 0.4);
+color: rgba(255,255,255,0.4);
 text-decoration: none;
 z-index: 100;
-transition: color 0.3s;
 font-family: sans-serif;
 }
-.skip-link:hover {
-color: rgba(255, 255, 255, 0.8);
-}
-audio{
-display:none;
-}
+audio{ display:none; }
 </style>
 </head>
 <body>
@@ -246,10 +221,7 @@ display:none;
 <div class="sky-bright"></div>
 <div class="overlay"></div>
 <div class="grain"></div>
-
-<!-- IMAGE DE CONCERT -->
 <div class="concert-bg" id="concertBg"></div>
-
 <div class="shooting-star" id="shootingStar"></div>
 
 <button class="invitation" id="invitation">my world</button>
@@ -279,11 +251,8 @@ display:none;
 </div>
 </div>
 
-<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">
-go on?
-</button>
-
-<a href="p1.html" class="skip-link" title="Passer le générique">⤚</a>
+<button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">go on?</button>
+<a href="p1.html" class="skip-link">⤚</a>
 
 <script>
 const invitation = document.getElementById("invitation")
@@ -295,38 +264,23 @@ const finalPhrase = document.getElementById("finalPhrase")
 const concertBg = document.getElementById("concertBg")
 
 const crawlDuration = 110
-const fadeStart = 36
-const fadeDuration = 15
-const shootingStarTime = 30
-const finalFixTime = 43000  // Ajusté pour que la phrase soit parfaitement centrée
+const finalFixTime = 43000  // Ajuste pour centrer parfaitement
 
 let started = false
-let fadeStarted = false
 let audioContext = null
 let gainNode = null
 let source = null
-let experienceStartTime = null
 let combustionStarted = false
 
-// ========== EFFET DE COMBUSTION RÉALISTE ==========
-function startCombustion() {
+// ========== EFFET DE COMBUSTION ==========
+function startCombustion(centerX, centerY) {
   if (combustionStarted) return
   combustionStarted = true
 
-  // 1. Faire apparaître l'image de concert progressivement
-  if (concertBg) {
-    concertBg.style.transition = "opacity 4s ease-out"
-    concertBg.style.opacity = "1"
-  }
+  // 1. Faire apparaître l'image de concert
+  concertBg.style.opacity = "1"
 
-  // Récupérer la position exacte de la phrase finale
-  const rect = finalPhrase.getBoundingClientRect()
-  const centerX = rect.left + rect.width / 2
-  const centerY = rect.top + rect.height / 2
-  const phraseWidth = rect.width
-  const phraseHeight = rect.height
-
-  // 2. Créer un canvas pour les flammes réalistes
+  // 2. Créer les flammes
   const fireCanvas = document.createElement('canvas')
   fireCanvas.width = window.innerWidth
   fireCanvas.height = window.innerHeight
@@ -335,158 +289,79 @@ function startCombustion() {
     top: '0',
     left: '0',
     zIndex: '25',
-    pointerEvents: 'none',
-    mixBlendMode: 'screen'
+    pointerEvents: 'none'
   })
   document.body.appendChild(fireCanvas)
   const ctx = fireCanvas.getContext('2d')
 
-  // 3. Créer un masque de combustion (effet papier qui brûle)
-  const burnCanvas = document.createElement('canvas')
-  burnCanvas.width = window.innerWidth
-  burnCanvas.height = window.innerHeight
-  Object.assign(burnCanvas.style, {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    zIndex: '26',
-    pointerEvents: 'none',
-    mixBlendMode: 'multiply'
-  })
-  document.body.appendChild(burnCanvas)
-  const burnCtx = burnCanvas.getContext('2d')
-  
-  // Dessiner un masque qui va "brûler" la page
-  burnCtx.fillStyle = '#000000'
-  burnCtx.fillRect(0, 0, burnCanvas.width, burnCanvas.height)
-  
-  // Particules de feu
   const particles = []
-  const palette = ['#ffffff','#fff5a0','#ffe566','#ffcc22','#ffaa00','#ff7700','#ff4400','#cc2200']
-  
-  // Zone de combustion qui s'agrandit progressivement
-  let burnRadius = 0
-  const maxBurnRadius = Math.max(window.innerWidth, window.innerHeight) * 0.8
-  
-  function spawnFlame() {
-    // Flammes qui partent du centre de la phrase
+  const fireColors = ['#fff8e0', '#ffcc44', '#ffaa33', '#ff8822', '#ff5511', '#ff3300']
+
+  function addFlame() {
     const angle = Math.random() * Math.PI * 2
-    const distance = burnRadius + Math.random() * 60
+    const dist = Math.random() * 80
     return {
-      x: centerX + Math.cos(angle) * (distance * 0.8),
-      y: centerY + Math.sin(angle) * (distance * 0.6) - 15,
-      vx: (Math.random() - 0.5) * (1.5 + Math.random() * 2),
+      x: centerX + Math.cos(angle) * dist,
+      y: centerY + Math.sin(angle) * dist - 20,
+      vx: (Math.random() - 0.5) * 1.5,
       vy: -2 - Math.random() * 5,
-      size: 2 + Math.random() * 10,
+      size: 4 + Math.random() * 12,
       life: 1,
-      decay: 0.008 + Math.random() * 0.02,
-      colorIdx: Math.floor(Math.random() * palette.length)
+      decay: 0.01 + Math.random() * 0.02,
+      color: fireColors[Math.floor(Math.random() * fireColors.length)]
     }
   }
-  
-  let burnFrame = 0
-  const burnDuration = 180 // frames ~3 secondes
-  
-  function animateBurn() {
+
+  let frame = 0
+  const maxFrames = 120
+
+  function animateFire() {
     ctx.clearRect(0, 0, fireCanvas.width, fireCanvas.height)
-    
-    // Agrandir la zone de combustion
-    if (burnRadius < maxBurnRadius) {
-      burnRadius += maxBurnRadius / burnDuration
+
+    for (let i = 0; i < 18; i++) {
+      particles.push(addFlame())
     }
-    
-    // Mettre à jour le masque de combustion (effet de trou qui grandit)
-    burnCtx.clearRect(0, 0, burnCanvas.width, burnCanvas.height)
-    burnCtx.fillStyle = '#000000'
-    burnCtx.fillRect(0, 0, burnCanvas.width, burnCanvas.height)
-    
-    // Créer un trou qui grandit (effet papier brûlé)
-    burnCtx.globalCompositeOperation = 'destination-out'
-    burnCtx.beginPath()
-    
-    // Trou principal
-    burnCtx.ellipse(centerX, centerY, burnRadius * 0.7, burnRadius * 0.5, 0, 0, Math.PI * 2)
-    burnCtx.fill()
-    
-    // Bords irréguliers (effet brûlure)
-    for (let i = 0; i < 20; i++) {
-      const angle = Math.random() * Math.PI * 2
-      const dist = burnRadius * (0.8 + Math.random() * 0.4)
-      const xOffset = Math.cos(angle) * dist
-      const yOffset = Math.sin(angle) * dist * 0.7
-      burnCtx.beginPath()
-      burnCtx.ellipse(centerX + xOffset, centerY + yOffset, 15 + Math.random() * 25, 10 + Math.random() * 20, 0, 0, Math.PI * 2)
-      burnCtx.fill()
-    }
-    
-    burnCtx.globalCompositeOperation = 'source-over'
-    
-    // Générer les flammes
-    const flameCount = Math.floor(15 + burnRadius * 0.3)
-    for (let i = 0; i < flameCount; i++) {
-      particles.push(spawnFlame())
-    }
-    
-    // Animer les particules de flammes
+
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i]
       p.x += p.vx
       p.y += p.vy
-      p.vy += 0.08
+      p.vy += 0.1
       p.life -= p.decay
       if (p.life <= 0 || p.y > window.innerHeight + 100) {
         particles.splice(i, 1)
         continue
       }
-      
+
       const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size)
-      grd.addColorStop(0, palette[p.colorIdx])
-      grd.addColorStop(0.5, palette[Math.min(p.colorIdx + 2, palette.length - 1)])
-      grd.addColorStop(1, 'rgba(255, 80, 0, 0)')
-      
+      grd.addColorStop(0, p.color)
+      grd.addColorStop(0.6, `rgba(255, 80, 0, ${p.life * 0.8})`)
+      grd.addColorStop(1, 'transparent')
+
       ctx.globalAlpha = p.life * 0.9
       ctx.fillStyle = grd
       ctx.beginPath()
-      ctx.arc(p.x, p.y, p.size * (0.6 + p.life * 0.5), 0, Math.PI * 2)
-      ctx.fill()
-      
-      // Ajouter une traînée lumineuse
-      ctx.globalAlpha = p.life * 0.5
-      ctx.fillStyle = `hsl(${30 + Math.random() * 20}, 100%, 60%)`
-      ctx.beginPath()
-      ctx.arc(p.x - p.vx * 3, p.y - p.vy * 2, p.size * 0.4, 0, Math.PI * 2)
+      ctx.arc(p.x, p.y, p.size * (0.7 + p.life * 0.5), 0, Math.PI * 2)
       ctx.fill()
     }
-    
-    // Faire disparaître progressivement la phrase finale
-    if (finalPhrase && burnRadius > 20) {
-      const opacity = Math.max(0, 1 - (burnRadius / maxBurnRadius) * 1.2)
-      finalPhrase.style.transition = "opacity 0.1s linear"
+
+    // Faire disparaître la phrase figée
+    if (finalPhrase && frame > 20) {
+      const opacity = Math.max(0, 1 - (frame - 20) / 60)
       finalPhrase.style.opacity = opacity
     }
-    
-    // Faire disparaître le crawl-wrapper
-    if (crawl && burnRadius > maxBurnRadius * 0.4) {
-      crawl.style.transition = "opacity 0.5s ease-out"
-      crawl.style.opacity = Math.max(0, 1 - (burnRadius / maxBurnRadius))
-    }
-    
-    burnFrame++
-    if (burnFrame < burnDuration || burnRadius < maxBurnRadius) {
-      requestAnimationFrame(animateBurn)
+
+    frame++
+    if (frame < maxFrames || particles.length > 0) {
+      requestAnimationFrame(animateFire)
     } else {
-      // Nettoyer
-      setTimeout(() => {
-        fireCanvas.remove()
-        burnCanvas.remove()
-        if (scene) scene.style.opacity = "0"
-      }, 500)
+      fireCanvas.remove()
+      if (finalPhrase) finalPhrase.style.opacity = "0"
     }
   }
-  
-  // Lancer l'animation de combustion
-  animateBurn()
-  
+
+  animateFire()
+
   // Masquer le bouton
   if (btn) {
     btn.style.opacity = "0"
@@ -495,47 +370,36 @@ function startCombustion() {
   }
 }
 
-// ========== FIXATION DE LA PHRASE AU CENTRE ==========
-function detachFinalPhrase() {
-  // Créer un conteneur fixe avec la phrase centrée (sans remplacer)
-  const frozenScene = document.createElement('div')
-  Object.assign(frozenScene.style, {
-    position: 'fixed',
-    inset: '0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    pointerEvents: 'none',
-    zIndex: '6',
-  })
-  
-  // Cloner UNIQUEMENT la phrase finale
-  const clonedFinal = finalPhrase.cloneNode(true)
-  clonedFinal.style.margin = '0'
-  clonedFinal.style.textAlign = 'center'
-  clonedFinal.style.fontSize = 'clamp(2.5rem, 6vw, 4rem)'
-  clonedFinal.style.color = '#ffe9b8'
-  clonedFinal.style.textShadow = '0 0 100px rgba(255,230,170,1), 0 0 180px rgba(255,210,130,0.8), 0 0 280px rgba(255,190,80,0.6)'
-  clonedFinal.style.animation = 'none'
-  clonedFinal.style.transform = 'none'
-  
-  frozenScene.appendChild(clonedFinal)
-  document.body.appendChild(frozenScene)
-  
-  // Masquer l'original (mais pas le remplacer)
-  finalPhrase.style.visibility = 'hidden'
-  
-  // DÉCLENCHER LA COMBUSTION
-  setTimeout(() => {
-    startCombustion()
-  }, 100)
+// ========== FIXER LA DERNIÈRE PHRASE AU CENTRE ==========
+function fixFinalPhrase() {
+  // Récupérer la position actuelle de la phrase
+  const rect = finalPhrase.getBoundingClientRect()
+  const centerX = rect.left + rect.width / 2
+  const centerY = rect.top + rect.height / 2
+
+  // Appliquer un style fixe centré à la phrase ORIGINALE
+  finalPhrase.style.position = 'fixed'
+  finalPhrase.style.top = '50%'
+  finalPhrase.style.left = '50%'
+  finalPhrase.style.transform = 'translate(-50%, -50%)'
+  finalPhrase.style.margin = '0'
+  finalPhrase.style.width = '90%'
+  finalPhrase.style.textAlign = 'center'
+  finalPhrase.style.zIndex = '20'
+  finalPhrase.style.pointerEvents = 'none'
+  finalPhrase.style.fontSize = 'clamp(2.5rem, 6vw, 4rem)'
+  finalPhrase.style.color = '#ffe9b8'
+  finalPhrase.style.textShadow = '0 0 100px rgba(255,230,170,1), 0 0 180px rgba(255,210,130,0.8), 0 0 280px rgba(255,190,80,0.6)'
+  finalPhrase.style.visibility = 'visible'
+
+  // Démarrer la combustion au centre exact
+  startCombustion(centerX, centerY)
 }
 
 // ========== LANCEMENT ==========
 function startExperience() {
   if (started) return
   started = true
-  experienceStartTime = performance.now()
 
   invitation.style.display = "none"
   scene.classList.add("active")
@@ -544,6 +408,7 @@ function startExperience() {
   crawl.offsetHeight
   crawl.style.animation = `crawl ${crawlDuration}s linear -5s forwards`
 
+  // Audio
   audioContext = new (window.AudioContext || window.webkitAudioContext)()
   gainNode = audioContext.createGain()
   gainNode.gain.value = 1
@@ -557,44 +422,17 @@ function startExperience() {
       source.buffer = buffer
       source.connect(gainNode)
       source.start(0)
-      const startTime = audioContext.currentTime
-      checkTime(startTime)
     })
     .catch(e => console.error('Erreur lecture audio:', e))
 
+  // Étoile filante
   setTimeout(() => {
     shootingStar.classList.add('active')
-    setTimeout(() => {
-      shootingStar.classList.remove('active')
-    }, 2000)
-  }, shootingStarTime * 1000)
+    setTimeout(() => shootingStar.classList.remove('active'), 2000)
+  }, 30000)
 
-  setTimeout(detachFinalPhrase, finalFixTime)
-}
-
-function checkTime(startTime) {
-  const checkInterval = setInterval(() => {
-    if (!audioContext) return
-    const elapsed = audioContext.currentTime - startTime
-    if (!fadeStarted && elapsed >= fadeStart) {
-      fadeStarted = true
-      clearInterval(checkInterval)
-      const fadeStartTime = audioContext.currentTime
-      const targetTime = fadeStartTime + fadeDuration
-      function fadeLoop() {
-        const now = audioContext.currentTime
-        if (now >= targetTime) {
-          gainNode.gain.value = 0
-          if (source) source.stop()
-          return
-        }
-        const progress = (now - fadeStartTime) / fadeDuration
-        gainNode.gain.value = 1 - progress
-        requestAnimationFrame(fadeLoop)
-      }
-      requestAnimationFrame(fadeLoop)
-    }
-  }, 100)
+  // Fixer la phrase et démarrer la combustion
+  setTimeout(fixFinalPhrase, finalFixTime)
 }
 
 invitation.addEventListener("click", startExperience)
