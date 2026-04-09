@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dans l'ombre — my world</title>
+<title>Dans l'ombre — my world (calage musical)</title>
 <link rel="icon" type="image/jpeg" href="icone.jpeg">
 <link rel="apple-touch-icon" href="icone.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
@@ -210,6 +209,23 @@ z-index: 100;
 font-family: sans-serif;
 }
 audio{ display:none; }
+
+/* compteur de calage */
+.timer-display {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0,0,0,0.6);
+  color: #ffcc88;
+  font-family: monospace;
+  font-size: 1.2rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  z-index: 200;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  letter-spacing: 1px;
+}
 </style>
 </head>
 <body>
@@ -250,32 +266,59 @@ audio{ display:none; }
 <button class="btn-continue" id="btnContinue" onclick="window.location.href='p1.html'">go on?</button>
 <a href="p1.html" class="skip-link">⤚</a>
 
+<!-- Affichage du temps pour calage -->
+<div class="timer-display" id="timerDisplay">0.000 s</div>
+
 <script>
+// ==================== RÉGLAGE MUSICAL PRINCIPAL ====================
+// Indique ici le moment EXACT (en secondes) où la phrase doit être centrée.
+// Ajuste à la milliseconde près en écoutant la musique et en regardant le compteur.
+const musicalMoment = 39.090;   // <--- MODIFIE CETTE VALEUR (ex: 39.090 pour 39s 90ms)
+// ===================================================================
+
 const invitation = document.getElementById("invitation")
 const scene = document.getElementById("scene")
 const crawl = document.getElementById("crawl")
 const btn = document.getElementById("btnContinue")
 const shootingStar = document.getElementById("shootingStar")
 const finalPhrase = document.getElementById("finalPhrase")
+const timerDisplay = document.getElementById("timerDisplay")
 
-const crawlDuration = 110
-const finalFixTime = 38800  // 38,80secondes (à ajuster au centième près si besoin)
+// Durée totale de l'animation (inchangée)
+const crawlDuration = 110   // secondes
+
+// Le moment de déclenchement de la fixation est égal au moment musical
+const finalFixTime = musicalMoment * 1000   // en millisecondes
 
 let started = false
 let audioContext = null
 let gainNode = null
 let source = null
 let experienceStartTime = null
+let animationFrame = null
 
-// ========== FIXER LA DERNIÈRE PHRASE (SANS AUCUN EFFET) ==========
+// Fonction pour mettre à jour l'affichage du compteur
+function updateTimer() {
+  if (!started || !experienceStartTime) {
+    timerDisplay.textContent = "0.000 s"
+    return
+  }
+  const now = performance.now()
+  const elapsed = (now - experienceStartTime) / 1000
+  timerDisplay.textContent = elapsed.toFixed(3) + " s"
+  animationFrame = requestAnimationFrame(updateTimer)
+}
+
+// ========== FIXER LA DERNIÈRE PHRASE (SANS EFFET) ==========
 function fixFinalPhrase() {
-  // Calculer la position exacte du crawl-wrapper à cet instant précis
+  // Calculer la progression de l'animation pour connaître la position du clone
   const elapsedSec = (performance.now() - experienceStartTime) / 1000
-  const totalAnimSec = elapsedSec + 5  // à cause du -5s dans l'animation
+  // L'animation a commencé avec un offset de -5s (dans le style)
+  const totalAnimSec = elapsedSec + 5
   const progress = Math.min(totalAnimSec / crawlDuration, 1)
   const crawlTopPercent = 100 + progress * (-700 - 100)
 
-  // Créer un conteneur fixe avec la même perspective que .scene
+  // Créer un conteneur fixe avec la même perspective
   const frozenScene = document.createElement('div')
   Object.assign(frozenScene.style, {
     position: 'fixed', inset: '0',
@@ -303,8 +346,27 @@ function fixFinalPhrase() {
   // Masquer la phrase originale (elle reste dans le crawl mais invisible)
   finalPhrase.style.visibility = 'hidden'
 
-  // ICI on n'ajoute AUCUN effet de combustion
-  console.log("Phrase figée à 39,09 secondes")
+  // === Déclenchement du fade out audio (optionnel) ===
+  if (audioContext && gainNode) {
+    const duration = 2.0
+    const startTime = audioContext.currentTime
+    const endTime = startTime + duration
+    function step() {
+      if (!gainNode) return
+      const now = audioContext.currentTime
+      if (now >= endTime) {
+        gainNode.gain.value = 0
+        if (source) source.stop()
+        return
+      }
+      const progress = (now - startTime) / duration
+      gainNode.gain.value = 1 - progress
+      requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }
+
+  console.log(`Phrase figée au temps musical ${musicalMoment}s (déclenché à ${(performance.now() - experienceStartTime)/1000}s)`)
 }
 
 // ========== LANCEMENT ==========
@@ -313,14 +375,18 @@ function startExperience() {
   started = true
   experienceStartTime = performance.now()
 
+  // Démarrer l'affichage du compteur
+  updateTimer()
+
   invitation.style.display = "none"
   scene.classList.add("active")
 
+  // Lancer l'animation crawl avec un offset initial de -5s (inchangé)
   crawl.style.animation = "none"
-  crawl.offsetHeight
+  crawl.offsetHeight  // force reflow
   crawl.style.animation = `crawl ${crawlDuration}s linear -5s forwards`
 
-  // Audio (optionnel, tu peux le garder)
+  // Audio
   audioContext = new (window.AudioContext || window.webkitAudioContext)()
   gainNode = audioContext.createGain()
   gainNode.gain.value = 1
@@ -337,19 +403,23 @@ function startExperience() {
     })
     .catch(e => console.error('Erreur lecture audio:', e))
 
-  // Étoile filante
+  // Étoile filante (optionnelle, à 30s)
   setTimeout(() => {
     shootingStar.classList.add('active')
     setTimeout(() => shootingStar.classList.remove('active'), 2000)
   }, 30000)
 
-  // Fixer la phrase au moment voulu
+  // Fixer la phrase au moment musical exact
   setTimeout(fixFinalPhrase, finalFixTime)
 }
 
 invitation.addEventListener("click", startExperience)
 invitation.addEventListener("touchstart", startExperience)
-</script>
 
+// Nettoyer l'affichage du timer si jamais la page se ferme
+window.addEventListener('beforeunload', () => {
+  if (animationFrame) cancelAnimationFrame(animationFrame)
+})
+</script>
 </body>
 </html>
